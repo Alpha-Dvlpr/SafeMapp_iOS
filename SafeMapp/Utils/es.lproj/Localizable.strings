@@ -1,0 +1,6 @@
+email = "Email";
+password = "Contraseña";
+done = "Listo";
+forgottenPassword = "¿Ha olvidado la contraseña?";
+login = "Iniciar sesión";
+register = "Registrarse";
