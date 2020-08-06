@@ -160,7 +160,7 @@ class LoginVC: UIViewController {
         registerButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 12).isActive = true
         registerButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24).isActive = true
         registerButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
-        registerButton.heightAnchor.constraint(equalToConstant: 41).isActive = true
+        registerButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
     
     @objc private func forgottenPasswordLabelPressed() {
