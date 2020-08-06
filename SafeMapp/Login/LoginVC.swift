@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class LoginVC: UIViewController {
     
@@ -170,8 +171,9 @@ class LoginVC: UIViewController {
     
     @objc private func loginButtonPressed() {
         if (self.emailTextField.text == "" || passwordTextField.text == "") {
-            print("Debes poner un email y una contraseña")
+            ToastNotification.shared.long(view, txt_msg: "Debes poner un email y una contraseña")
         } else {
+            
             print("iniciaste sesión")
         }
     }

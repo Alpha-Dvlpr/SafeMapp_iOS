@@ -42,6 +42,13 @@ class ForgotPasswordVC: UIViewController {
         return view
     }()
     
+    let cancelButton: UIButton = {
+        let view = UIButton()
+        view.setTitle(NSLocalizedString("cancel", comment: ""), for: .normal)
+        view.backgroundColor = AppColors.redColor
+        return view
+    }()
+    
     let infoLabel: UILabel = {
         let view = UILabel()
         let rawText: String = NSLocalizedString("resetPasswordInfo", comment: "")
@@ -73,6 +80,7 @@ class ForgotPasswordVC: UIViewController {
         view.addSubview(emailTextField)
         view.addSubview(infoLabel)
         view.addSubview(sendButton)
+        view.addSubview(cancelButton)
         
         [
             emailTextField
@@ -84,7 +92,8 @@ class ForgotPasswordVC: UIViewController {
         }
         
         [
-            sendButton
+            sendButton,
+            cancelButton
         ].forEach { (view) in
             view.layer.cornerRadius = 15
             view.setTitleColor(.white, for: .normal)
@@ -92,6 +101,7 @@ class ForgotPasswordVC: UIViewController {
         }
         
         sendButton.addTarget(self, action: #selector(sendEmailButtonPressed), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
     }
     
     private func setupConstraints() {
@@ -101,7 +111,8 @@ class ForgotPasswordVC: UIViewController {
             logoName,
             emailTextField,
             infoLabel,
-            sendButton
+            sendButton,
+            cancelButton
         ].forEach { (view) in
             view.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -134,15 +145,24 @@ class ForgotPasswordVC: UIViewController {
         sendButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24).isActive = true
         sendButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
         sendButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        cancelButton.topAnchor.constraint(equalTo: sendButton.bottomAnchor, constant: 12).isActive = true
+        cancelButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24).isActive = true
+        cancelButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
+        cancelButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
     
     @objc private func sendEmailButtonPressed() {
         if (self.emailTextField.text == "") {
-            print("Debes poner un email")
+            ToastNotification.shared.long(view, txt_msg: "Debes introducir un email")
         } else {
             //TODO: make send email stuff
-            print("Email enviado con éxito")
+            ToastNotification.shared.long(view, txt_msg: "Email enviado a '\(self.emailTextField.text!)'")
             self.dismiss(animated: true, completion: nil)
         }
+    }
+    
+    @objc private func cancelButtonPressed() {
+        self.dismiss(animated: true, completion: nil)
     }
 }

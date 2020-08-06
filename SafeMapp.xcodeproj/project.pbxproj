@@ -19,6 +19,8 @@
 		9341F9B524DC9A4E00671870 /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341F9B424DC9A4E00671870 /* RegisterVC.swift */; };
 		937E408124DB315000AE1541 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 937E408324DB315000AE1541 /* Localizable.strings */; };
 		937E408624DB354A00AE1541 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937E408524DB354A00AE1541 /* Extensions.swift */; };
+		93F0FEE024DCADC0003CF409 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93F0FEDF24DCADC0003CF409 /* GoogleService-Info.plist */; };
+		93F0FEE224DCB745003CF409 /* ToastNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F0FEE124DCB745003CF409 /* ToastNotification.swift */; };
 		F329B99354C16A5E887B0C82 /* Pods_SafeMapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 730B9FBFBBF6190CE013DEC6 /* Pods_SafeMapp.framework */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +63,8 @@
 		937E408224DB315000AE1541 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		937E408424DB315700AE1541 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		937E408524DB354A00AE1541 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		93F0FEDF24DCADC0003CF409 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		93F0FEE124DCB745003CF409 /* ToastNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastNotification.swift; sourceTree = "<group>"; };
 		B80EEA31DA67E984CF95CEB2 /* Pods-SafeMapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SafeMapp.release.xcconfig"; path = "Target Support Files/Pods-SafeMapp/Pods-SafeMapp.release.xcconfig"; sourceTree = "<group>"; };
 		F7B9CE5FB66951BE946EEBC1 /* Pods-SafeMapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SafeMapp.debug.xcconfig"; path = "Target Support Files/Pods-SafeMapp/Pods-SafeMapp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -133,6 +137,7 @@
 				932136B124DA0E1B004384F3 /* ViewController.swift */,
 				932136B824DA0E1E004384F3 /* LaunchScreen.storyboard */,
 				932136BB24DA0E1E004384F3 /* Info.plist */,
+				93F0FEDF24DCADC0003CF409 /* GoogleService-Info.plist */,
 			);
 			path = SafeMapp;
 			sourceTree = "<group>";
@@ -178,6 +183,7 @@
 				937E408324DB315000AE1541 /* Localizable.strings */,
 				937E408524DB354A00AE1541 /* Extensions.swift */,
 				9341F9B224DC934D00671870 /* AppColors.swift */,
+				93F0FEE124DCB745003CF409 /* ToastNotification.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -297,6 +303,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				932136BA24DA0E1E004384F3 /* LaunchScreen.storyboard in Resources */,
+				93F0FEE024DCADC0003CF409 /* GoogleService-Info.plist in Resources */,
 				937E408124DB315000AE1541 /* Localizable.strings in Resources */,
 				932136B724DA0E1E004384F3 /* Assets.xcassets in Resources */,
 			);
@@ -369,6 +376,7 @@
 				932136B024DA0E1B004384F3 /* AppDelegate.swift in Sources */,
 				932136E024DA1295004384F3 /* LoginVC.swift in Sources */,
 				9341F9B324DC934D00671870 /* AppColors.swift in Sources */,
+				93F0FEE224DCB745003CF409 /* ToastNotification.swift in Sources */,
 				9341F9B524DC9A4E00671870 /* RegisterVC.swift in Sources */,
 				937E408624DB354A00AE1541 /* Extensions.swift in Sources */,
 				9341F9B124DC8FB000671870 /* ForgotPasswordVC.swift in Sources */,

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>874251524515-q7tog1h9vmnkpqultbspq2cq7eo35h36.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.874251524515-q7tog1h9vmnkpqultbspq2cq7eo35h36</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDM0mYl8rSfDK-hnPqPyMuYZOg3_XM7FDc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>874251524515</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.alphadvlpr.SafeMapp</string>
+	<key>PROJECT_ID</key>
+	<string>safemapp-8c432</string>
+	<key>STORAGE_BUCKET</key>
+	<string>safemapp-8c432.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:874251524515:ios:c7f67234d4d2ec73a1e216</string>
+	<key>DATABASE_URL</key>
+	<string>https://safemapp-8c432.firebaseio.com</string>
+</dict>
+</plist>

@@ -56,6 +56,13 @@ class RegisterVC: UIViewController {
         return view
     }()
     
+    let cancelButton: UIButton = {
+        let view = UIButton()
+        view.setTitle(NSLocalizedString("cancel", comment: ""), for: .normal)
+        view.backgroundColor = AppColors.redColor
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -73,6 +80,7 @@ class RegisterVC: UIViewController {
         view.addSubview(emailTextField)
         view.addSubview(passwordTextField)
         view.addSubview(createAccountButton)
+        view.addSubview(cancelButton)
         
         [
             usernameTextField,
@@ -86,7 +94,8 @@ class RegisterVC: UIViewController {
         }
         
         [
-            createAccountButton
+            createAccountButton,
+            cancelButton
         ].forEach { (view) in
             view.layer.cornerRadius = 15
             view.setTitleColor(.white, for: .normal)
@@ -94,6 +103,7 @@ class RegisterVC: UIViewController {
         }
         
         createAccountButton.addTarget(self, action: #selector(createAccountButtonPressed), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
     }
     
     private func setupConstraints() {
@@ -104,7 +114,8 @@ class RegisterVC: UIViewController {
             usernameTextField,
             emailTextField,
             passwordTextField,
-            createAccountButton
+            createAccountButton,
+            cancelButton
         ].forEach { (view) in
             view.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -143,11 +154,16 @@ class RegisterVC: UIViewController {
         createAccountButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24).isActive = true
         createAccountButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
         createAccountButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        cancelButton.topAnchor.constraint(equalTo: createAccountButton.bottomAnchor, constant: 12).isActive = true
+        cancelButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24).isActive = true
+        cancelButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
+        cancelButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
     
     @objc private func createAccountButtonPressed() {
         if (self.usernameTextField.text == "" || self.emailTextField.text == "" || self.passwordTextField.text == "") {
-            print("Debes poner un nombre de usuario, un email y una contraseña")
+            ToastNotification.shared.long(view, txt_msg: "Todos los campos son obligatorios")
         } else {
             //TODO: make register stuff
             print("Cuenta creada con éxito con éxito")
@@ -155,4 +171,7 @@ class RegisterVC: UIViewController {
         }
     }
 
+    @objc private func cancelButtonPressed() {
+        self.dismiss(animated: true, completion: nil)
+    }
 }
