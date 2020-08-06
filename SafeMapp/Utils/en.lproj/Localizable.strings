@@ -1,6 +1,10 @@
 email = "Email";
 password = "Password";
+username = "Username";
 done = "Done";
 forgottenPassword = "Forgot password?";
 login = "Login";
 register = "Register";
+resetPasswordInfo = "By clicking on Send button a reset password email will be sent to your Email.";
+send = "Send";
+createAccount = "Create Account";

@@ -1,15 +1,15 @@
 //
-//  LoginVC.swift
+//  RegisterVC.swift
 //  SafeMapp
 //
-//  Created by Aarón on 5/8/20.
+//  Created by Aarón on 6/8/20.
 //  Copyright © 2020 Aarón. All rights reserved.
 //
 
 import UIKit
 
-class LoginVC: UIViewController {
-    
+class RegisterVC: UIViewController {
+
     let logoImage: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "logo")
@@ -28,6 +28,13 @@ class LoginVC: UIViewController {
         return view
     }()
     
+    let usernameTextField: UITextField = {
+        let view = UITextField()
+        view.placeholder = NSLocalizedString("username", comment: "")
+        view.keyboardType = .default
+        return view
+    }()
+    
     let emailTextField: UITextField = {
         let view = UITextField()
         view.placeholder = NSLocalizedString("email", comment: "")
@@ -42,25 +49,10 @@ class LoginVC: UIViewController {
         return view
     }()
     
-    let forgottenPasswordLabel: UILabel = {
-        let view = UILabel()
-        view.text = NSLocalizedString("forgottenPassword", comment: "")
-        view.font = .systemFont(ofSize: 12)
-        view.textAlignment = .right
-        return view
-    }()
-    
-    let loginButton: UIButton = {
+    let createAccountButton: UIButton = {
         let view = UIButton()
-        view.setTitle(NSLocalizedString("login", comment: ""), for: .normal)
+        view.setTitle(NSLocalizedString("createAccount", comment: ""), for: .normal)
         view.backgroundColor = AppColors.greenColor
-        return view
-    }()
-    
-    let registerButton: UIButton = {
-        let view = UIButton()
-        view.setTitle(NSLocalizedString("register", comment: ""), for: .normal)
-        view.backgroundColor = AppColors.redColor
         return view
     }()
     
@@ -77,13 +69,13 @@ class LoginVC: UIViewController {
         view.addSubview(backgroundImage)
         view.addSubview(logoImage)
         view.addSubview(logoName)
+        view.addSubview(usernameTextField)
         view.addSubview(emailTextField)
         view.addSubview(passwordTextField)
-        view.addSubview(forgottenPasswordLabel)
-        view.addSubview(loginButton)
-        view.addSubview(registerButton)
+        view.addSubview(createAccountButton)
         
         [
+            usernameTextField,
             emailTextField,
             passwordTextField
         ].forEach { (view) in
@@ -94,19 +86,14 @@ class LoginVC: UIViewController {
         }
         
         [
-            loginButton,
-            registerButton
+            createAccountButton
         ].forEach { (view) in
             view.layer.cornerRadius = 15
             view.setTitleColor(.white, for: .normal)
             view.titleLabel?.font = .systemFont(ofSize: 13)
         }
         
-        forgottenPasswordLabel.isUserInteractionEnabled = true
-        forgottenPasswordLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(forgottenPasswordLabelPressed)))
-        
-        loginButton.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
-        registerButton.addTarget(self, action: #selector(registerButtonPressed), for: .touchUpInside)
+        createAccountButton.addTarget(self, action: #selector(createAccountButtonPressed), for: .touchUpInside)
     }
     
     private func setupConstraints() {
@@ -114,11 +101,10 @@ class LoginVC: UIViewController {
             backgroundImage,
             logoImage,
             logoName,
+            usernameTextField,
             emailTextField,
             passwordTextField,
-            forgottenPasswordLabel,
-            loginButton,
-            registerButton
+            createAccountButton
         ].forEach { (view) in
             view.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -138,46 +124,35 @@ class LoginVC: UIViewController {
         logoName.heightAnchor.constraint(equalToConstant: 30).isActive = true
         logoName.widthAnchor.constraint(equalToConstant: 167).isActive = true
         
-        emailTextField.topAnchor.constraint(equalTo: logoName.bottomAnchor, constant: 64).isActive = true
+        usernameTextField.topAnchor.constraint(equalTo: logoName.bottomAnchor, constant: 64).isActive = true
+        usernameTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24).isActive = true
+        usernameTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
+        usernameTextField.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        emailTextField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor, constant: 12).isActive = true
         emailTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24).isActive = true
         emailTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
         emailTextField.heightAnchor.constraint(equalToConstant: 40).isActive = true
-    
+        
         passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 12).isActive = true
         passwordTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24).isActive = true
         passwordTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
         passwordTextField.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
-        forgottenPasswordLabel.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 12).isActive = true
-        forgottenPasswordLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24).isActive = true
-        forgottenPasswordLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
-        
-        loginButton.topAnchor.constraint(equalTo: forgottenPasswordLabel.bottomAnchor, constant: 32).isActive = true
-        loginButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24).isActive = true
-        loginButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
-        loginButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        registerButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 12).isActive = true
-        registerButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24).isActive = true
-        registerButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
-        registerButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        createAccountButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 32).isActive = true
+        createAccountButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24).isActive = true
+        createAccountButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
+        createAccountButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
     
-    @objc private func forgottenPasswordLabelPressed() {
-        let forgotPasswordVC = ForgotPasswordVC()
-        self.present(forgotPasswordVC, animated: true, completion: nil)
-    }
-    
-    @objc private func loginButtonPressed() {
-        if (self.emailTextField.text == "" || passwordTextField.text == "") {
-            print("Debes poner un email y una contraseña")
+    @objc private func createAccountButtonPressed() {
+        if (self.usernameTextField.text == "" || self.emailTextField.text == "" || self.passwordTextField.text == "") {
+            print("Debes poner un nombre de usuario, un email y una contraseña")
         } else {
-            print("iniciaste sesión")
+            //TODO: make register stuff
+            print("Cuenta creada con éxito con éxito")
+            self.dismiss(animated: true, completion: nil)
         }
     }
-    
-    @objc private func registerButtonPressed() {
-        let registerVC = RegisterVC()
-        self.present(registerVC, animated: true, completion: nil)
-    }
+
 }

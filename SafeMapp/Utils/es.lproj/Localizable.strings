@@ -1,6 +1,10 @@
 email = "Email";
 password = "Contraseña";
+username = "Nombre de usuario";
 done = "Listo";
 forgottenPassword = "¿Ha olvidado la contraseña?";
 login = "Iniciar sesión";
 register = "Registrarse";
+resetPasswordInfo = "Al pulsar el botón Enviar se enviará un email de restablecimiento de contraseña a su Email.";
+send = "Enviar";
+createAccount = "Crear Cuenta";

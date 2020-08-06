@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,9 @@
 		932136C524DA0E1E004384F3 /* SafeMappTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932136C424DA0E1E004384F3 /* SafeMappTests.swift */; };
 		932136D024DA0E1E004384F3 /* SafeMappUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932136CF24DA0E1E004384F3 /* SafeMappUITests.swift */; };
 		932136E024DA1295004384F3 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932136DF24DA1295004384F3 /* LoginVC.swift */; };
+		9341F9B124DC8FB000671870 /* ForgotPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341F9B024DC8FB000671870 /* ForgotPasswordVC.swift */; };
+		9341F9B324DC934D00671870 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341F9B224DC934D00671870 /* AppColors.swift */; };
+		9341F9B524DC9A4E00671870 /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341F9B424DC9A4E00671870 /* RegisterVC.swift */; };
 		937E408124DB315000AE1541 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 937E408324DB315000AE1541 /* Localizable.strings */; };
 		937E408624DB354A00AE1541 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937E408524DB354A00AE1541 /* Extensions.swift */; };
 		F329B99354C16A5E887B0C82 /* Pods_SafeMapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 730B9FBFBBF6190CE013DEC6 /* Pods_SafeMapp.framework */; };
@@ -51,6 +54,9 @@
 		932136CF24DA0E1E004384F3 /* SafeMappUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeMappUITests.swift; sourceTree = "<group>"; };
 		932136D124DA0E1E004384F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		932136DF24DA1295004384F3 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		9341F9B024DC8FB000671870 /* ForgotPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordVC.swift; sourceTree = "<group>"; };
+		9341F9B224DC934D00671870 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		9341F9B424DC9A4E00671870 /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
 		937E407E24DB30F900AE1541 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		937E408224DB315000AE1541 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		937E408424DB315700AE1541 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -91,7 +97,6 @@
 				F7B9CE5FB66951BE946EEBC1 /* Pods-SafeMapp.debug.xcconfig */,
 				B80EEA31DA67E984CF95CEB2 /* Pods-SafeMapp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -154,6 +159,8 @@
 			isa = PBXGroup;
 			children = (
 				932136DF24DA1295004384F3 /* LoginVC.swift */,
+				9341F9B024DC8FB000671870 /* ForgotPasswordVC.swift */,
+				9341F9B424DC9A4E00671870 /* RegisterVC.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -170,6 +177,7 @@
 			children = (
 				937E408324DB315000AE1541 /* Localizable.strings */,
 				937E408524DB354A00AE1541 /* Extensions.swift */,
+				9341F9B224DC934D00671870 /* AppColors.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -360,7 +368,10 @@
 				932136B224DA0E1B004384F3 /* ViewController.swift in Sources */,
 				932136B024DA0E1B004384F3 /* AppDelegate.swift in Sources */,
 				932136E024DA1295004384F3 /* LoginVC.swift in Sources */,
+				9341F9B324DC934D00671870 /* AppColors.swift in Sources */,
+				9341F9B524DC9A4E00671870 /* RegisterVC.swift in Sources */,
 				937E408624DB354A00AE1541 /* Extensions.swift in Sources */,
+				9341F9B124DC8FB000671870 /* ForgotPasswordVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
