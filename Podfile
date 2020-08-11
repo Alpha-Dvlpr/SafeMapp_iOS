@@ -9,6 +9,8 @@ target 'SafeMapp' do
   pod 'Firebase/Core', '~> 6.15.0'
   pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
+  pod 'Firebase/Database'
+  pod 'MBProgressHUD', '~> 1.1.0'
 
 end
 

@@ -154,10 +154,10 @@ class ForgotPasswordVC: UIViewController {
     
     @objc private func sendEmailButtonPressed() {
         if (self.emailTextField.text == "") {
-            ToastNotification.shared.long(view, txt_msg: "Debes introducir un email")
+            ToastNotification.shared.long(view, txt_msg: NSLocalizedString("emailRequired", comment: ""))
         } else {
             //TODO: make send email stuff
-            ToastNotification.shared.long(view, txt_msg: "Email enviado a '\(self.emailTextField.text!)'")
+            ToastNotification.shared.long(view, txt_msg: "\(NSLocalizedString("emailSent", comment: "")) '\(self.emailTextField.text!)'")
             self.dismiss(animated: true, completion: nil)
         }
     }

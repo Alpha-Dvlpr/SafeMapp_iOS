@@ -162,13 +162,18 @@ class RegisterVC: UIViewController {
     }
     
     @objc private func createAccountButtonPressed() {
-        if (self.usernameTextField.text == "" || self.emailTextField.text == "" || self.passwordTextField.text == "") {
-            ToastNotification.shared.long(view, txt_msg: "Todos los campos son obligatorios")
-        } else {
-            //TODO: make register stuff
-            print("Cuenta creada con éxito con éxito")
-            self.dismiss(animated: true, completion: nil)
+        guard let email = self.emailTextField.text, let password = self.passwordTextField.text, let nickname = self.usernameTextField.text else {
+            ToastNotification.shared.long(view, txt_msg: NSLocalizedString("allFieldsRequired", comment: ""))
+            return
         }
+        
+        FirebaseManager.registerNewUser(
+            email: email,
+            password: password,
+            nickname: nickname
+        )
+        
+        //self.dismiss(animated: true, completion: nil)
     }
 
     @objc private func cancelButtonPressed() {

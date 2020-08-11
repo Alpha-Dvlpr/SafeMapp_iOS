@@ -9,3 +9,7 @@ register = "Registrarse";
 resetPasswordInfo = "Al pulsar el botón Enviar se enviará un email de restablecimiento de contraseña a su Email.";
 send = "Enviar";
 createAccount = "Crear Cuenta";
+emailRequired = "Debes introducir un email";
+emailAndPasswordRequired = "Debes introducir un email y una contraseña";
+allFieldsRequired = "Todos los campos son obligatorios";
+emailSent = "Email enviado a ";

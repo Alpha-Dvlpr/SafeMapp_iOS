@@ -9,6 +9,9 @@ PODS:
     - FirebaseAnalytics (= 6.2.1)
   - Firebase/CoreOnly (6.15.0):
     - FirebaseCore (= 6.6.0)
+  - Firebase/Database (6.15.0):
+    - Firebase/CoreOnly
+    - FirebaseDatabase (~> 6.1.4)
   - FirebaseAnalytics (6.2.1):
     - FirebaseCore (~> 6.6)
     - FirebaseInstanceID (~> 4.3)
@@ -37,6 +40,10 @@ PODS:
     - GoogleUtilities/Logger (~> 6.5)
     - nanopb (~> 0.3.901)
   - FirebaseCoreDiagnosticsInterop (1.2.0)
+  - FirebaseDatabase (6.1.4):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 6.0)
+    - leveldb-library (~> 1.22)
   - FirebaseInstallations (1.2.0):
     - FirebaseCore (~> 6.6)
     - GoogleUtilities/Environment (~> 6.6)
@@ -78,6 +85,8 @@ PODS:
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.4.0)
   - IQKeyboardManagerSwift (6.5.5)
+  - leveldb-library (1.22)
+  - MBProgressHUD (1.1.0)
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
     - nanopb/encode (= 0.3.9011)
@@ -89,7 +98,9 @@ DEPENDENCIES:
   - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Core (~> 6.15.0)
+  - Firebase/Database
   - IQKeyboardManagerSwift (~> 6.4)
+  - MBProgressHUD (~> 1.1.0)
 
 SPEC REPOS:
   trunk:
@@ -100,6 +111,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseCoreDiagnosticsInterop
+    - FirebaseDatabase
     - FirebaseInstallations
     - FirebaseInstanceID
     - GoogleAppMeasurement
@@ -108,6 +120,8 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMSessionFetcher
     - IQKeyboardManagerSwift
+    - leveldb-library
+    - MBProgressHUD
     - nanopb
     - PromisesObjC
 
@@ -119,6 +133,7 @@ SPEC CHECKSUMS:
   FirebaseCore: 4aeb81ff53dcd9a3634ca725dc1fb8c2a4622046
   FirebaseCoreDiagnostics: b59c024493a409f8aecba02c99928d0d8431d159
   FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
+  FirebaseDatabase: 0144e0706a4761f1b0e8679572eba8095ddb59be
   FirebaseInstallations: 2119fb3e46b0a88bfdbf12562f855ee3252462fa
   FirebaseInstanceID: cef67c4967c7cecb56ea65d8acbb4834825c587b
   GoogleAppMeasurement: a08a43b8677b95ed51fcef880e36737334d804fd
@@ -127,9 +142,11 @@ SPEC CHECKSUMS:
   GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
   IQKeyboardManagerSwift: 0fb93310284665245591f50f7a5e38de615960b7
+  leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
+  MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
 
-PODFILE CHECKSUM: df2a9a419f7ab610b897704c524f46589c0eb3b1
+PODFILE CHECKSUM: 7988282b120132bb043aa3f9753b411a96f2880f
 
 COCOAPODS: 1.9.2
