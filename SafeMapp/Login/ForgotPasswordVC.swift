@@ -69,8 +69,18 @@ class ForgotPasswordVC: UIViewController {
         
         view.backgroundColor = UIColor.white
         
+        self.addNotificationListeners()
         self.addViews()
         self.setupConstraints()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func addNotificationListeners() {
+        NotificationCenter.default.addObserver(self, selector: #selector(recoveryEmailErrorEvent), name: Notification.Name(rawValue: Notifications.recoveryEmailError), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(sendRecoveryEmailEvent), name: Notification.Name(rawValue: Notifications.sendRecoveryEmail), object: nil)
     }
     
     private func addViews() {
@@ -153,16 +163,29 @@ class ForgotPasswordVC: UIViewController {
     }
     
     @objc private func sendEmailButtonPressed() {
-        if (self.emailTextField.text == "") {
+        guard let email = self.emailTextField.text else {
+            return
+        }
+        
+        if email == "" {
             ToastNotification.shared.long(view, txt_msg: NSLocalizedString("emailRequired", comment: ""))
         } else {
-            //TODO: make send email stuff
-            ToastNotification.shared.long(view, txt_msg: "\(NSLocalizedString("emailSent", comment: "")) '\(self.emailTextField.text!)'")
-            self.dismiss(animated: true, completion: nil)
+            FirebaseManager.sendRecoverPasswordEmail(email: email)
         }
     }
     
     @objc private func cancelButtonPressed() {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func recoveryEmailErrorEvent() {
+        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("recoveryEmailError", comment: ""))
+    }
+ 
+    @objc private func sendRecoveryEmailEvent() {
+        ToastNotification.shared.long(view, txt_msg: "\(NSLocalizedString("emailSent", comment: "")) '\(self.emailTextField.text!)'")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 }

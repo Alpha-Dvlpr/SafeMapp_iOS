@@ -69,8 +69,18 @@ class LoginVC: UIViewController {
         
         view.backgroundColor = UIColor.white
         
+        self.addNotificationObservers()
         self.addViews()
         self.setupConstraints()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func addNotificationObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(loginSuccessEvent), name: Notification.Name(rawValue: Notifications.loginSuccess), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loginErrorEvent), name: Notification.Name(rawValue: Notifications.loginError), object: nil)
     }
     
     private func addViews() {
@@ -169,16 +179,34 @@ class LoginVC: UIViewController {
     }
     
     @objc private func loginButtonPressed() {
-        if (self.emailTextField.text == "" || passwordTextField.text == "") {
+        guard let email = self.emailTextField.text, let password = self.passwordTextField.text else {
+            return
+        }
+        
+        if (email == "" || password == "") {
             ToastNotification.shared.long(view, txt_msg: NSLocalizedString("emailAndPasswordRequired", comment: ""))
         } else {
-            
-            print("iniciaste sesión")
+            FirebaseManager.loginUser(
+                email: email,
+                password: password
+            )
         }
     }
     
     @objc private func registerButtonPressed() {
         let registerVC = RegisterVC()
         self.present(registerVC, animated: true, completion: nil)
+    }
+    
+    @objc private func loginSuccessEvent() {
+        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("loginSuccess", comment: ""))
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            
+//            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    @objc private func loginErrorEvent() {
+        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("loginError", comment: ""))
     }
 }
