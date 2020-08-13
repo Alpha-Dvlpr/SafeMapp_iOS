@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>NSLocalizedString(key: &quot;loginSuccess&quot;, comment: &quot;&quot;)</string>
+	<string>The app needs your location to track people who need hel pear you.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

@@ -24,13 +24,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         
-        let loginViewController = UIViewController()
+        let rootController = UIViewController()
         
-        window!.rootViewController = loginViewController
+        window!.rootViewController = rootController
         window!.makeKeyAndVisible()
         
         let viewController = window!.rootViewController
-        viewController?.present(LoginVC(), animated: true, completion: nil)
+        viewController?.present(FirebaseManager.getAuth() ? MainVC() : LoginVC(), animated: true, completion: nil)
         
         return true
     }

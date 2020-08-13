@@ -75,8 +75,12 @@ class FirebaseManager {
                     return
                 }
                 
-                
+                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Notifications.loginSuccess)))
             })
         }
+    }
+    
+    static func getAuth() -> Bool {
+        return Auth.auth().currentUser != nil
     }
 }

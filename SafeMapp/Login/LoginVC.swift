@@ -81,6 +81,7 @@ class LoginVC: UIViewController {
     private func addNotificationObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(loginSuccessEvent), name: Notification.Name(rawValue: Notifications.loginSuccess), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(loginErrorEvent), name: Notification.Name(rawValue: Notifications.loginError), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(saveDataError), name: Notification.Name(rawValue: Notifications.saveDataError), object: nil)
     }
     
     private func addViews() {
@@ -200,13 +201,14 @@ class LoginVC: UIViewController {
     
     @objc private func loginSuccessEvent() {
         ToastNotification.shared.long(view, txt_msg: NSLocalizedString("loginSuccess", comment: ""))
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            
-//            self.dismiss(animated: true, completion: nil)
-        }
+        self.present(MainVC(), animated: true, completion: nil)
     }
     
     @objc private func loginErrorEvent() {
         ToastNotification.shared.long(view, txt_msg: NSLocalizedString("loginError", comment: ""))
+    }
+    
+    @objc private func saveDataError() {
+        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("dataSaveError", comment: ""))
     }
 }

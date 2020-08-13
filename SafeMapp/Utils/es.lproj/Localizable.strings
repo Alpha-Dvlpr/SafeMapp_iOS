@@ -19,3 +19,5 @@ dataSaveError = "Error al guardar los datos, póngase en contacto con el servici
 recoveryEmailError = "No hay ninguna cuenta registrada con ese email.";
 loginSuccess = "Bienvenido!";
 loginError = "Error al iniciar sesión";
+home = "Inicio";
+requests = "Solicitudes";

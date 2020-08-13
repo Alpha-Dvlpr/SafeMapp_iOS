@@ -19,3 +19,5 @@ dataSaveError = "Error saving data, please contact tech service";
 recoveryEmailError = "There is no account registered with that email";
 loginSuccess = "Welcome!";
 loginError = "Error logging in";
+home = "Home";
+requests = "Requests";
