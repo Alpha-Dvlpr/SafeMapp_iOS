@@ -83,4 +83,15 @@ class FirebaseManager {
     static func getAuth() -> Bool {
         return Auth.auth().currentUser != nil
     }
+    
+    static func logOut() {
+        do {
+            try Auth.auth().signOut()
+        } catch {
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Notifications.logoutError)))
+            return
+        }
+        
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Notifications.logoutSuccess)))
+    }
 }

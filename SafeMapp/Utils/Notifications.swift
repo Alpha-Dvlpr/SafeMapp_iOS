@@ -16,4 +16,6 @@ class Notifications {
     static let recoveryEmailError = "com.alphadvlpr.recoveryEmailError"
     static let loginSuccess = "com.alphadvlpr.loginSuccess"
     static let loginError = "com.alphadvlpr.loginError"
+    static let logoutSuccess = "com.alphadvlpr.logoutSuccess"
+    static let logoutError = "com.alphadvlpr.logoutError"
 }

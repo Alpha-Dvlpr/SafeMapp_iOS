@@ -46,6 +46,16 @@ class MapVC: UIViewController {
         self.addViews()
         self.setupConstraints()
         self.checkLocationServices()
+        self.addNotificationObservers()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func addNotificationObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(logoutErrorEvent), name: Notification.Name(rawValue: Notifications.logoutError), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(logoutSuccessEvent), name: Notification.Name(rawValue: Notifications.logoutSuccess), object: nil)
     }
     
     private func addViews(){
@@ -53,6 +63,14 @@ class MapVC: UIViewController {
         view.addSubview(profileButton)
         view.addSubview(logOutButton)
         view.addSubview(sendAlertButton)
+        
+        profileButton.isUserInteractionEnabled = true
+        logOutButton.isUserInteractionEnabled = true
+        sendAlertButton.isUserInteractionEnabled = true
+        
+        profileButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileButtonPressed)))
+        logOutButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(logOutButtonPressed)))
+        sendAlertButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendAlertButtonPressed)))
     }
     
     private func setupConstraints() {
@@ -94,8 +112,7 @@ class MapVC: UIViewController {
             self.setLocationManager()
             self.checkLocationAuthorization()
         } else {
-            // show alert telling to turn on location service
-            print("enable location")
+            self.showAlert(message: NSLocalizedString("locationDisabled", comment: ""))
         }
     }
     
@@ -107,8 +124,7 @@ class MapVC: UIViewController {
     private func checkLocationAuthorization() {
         switch CLLocationManager.authorizationStatus() {
         case .denied:
-            //show alert telling to turn on location, check again on accept
-            print("location denied")
+            self.showAlert(message: NSLocalizedString("locationDenied", comment: ""))
             break
         case .authorizedWhenInUse:
             self.mapView.showsUserLocation = true
@@ -116,13 +132,10 @@ class MapVC: UIViewController {
             self.locationManager.startUpdatingLocation()
             break
         case .notDetermined:
-            //locationManager.requestAlwaysAuthorization()
-            print("location not determined")
             self.locationManager.requestWhenInUseAuthorization()
             break
         case .restricted:
-            print("location restricted")
-            //show alert telling user does not have permission to use location services due to parental control
+            self.showAlert(message: NSLocalizedString("locationRestricted", comment: ""))
             break
         default:
             break
@@ -134,6 +147,37 @@ class MapVC: UIViewController {
             let region = MKCoordinateRegion.init(center: location, latitudinalMeters: self.locationInMeters, longitudinalMeters: self.locationInMeters)
             self.mapView.setRegion(region, animated: true)
         }
+    }
+    
+    private func showAlert(message: String) {
+        let alertController = UIAlertController(title: NSLocalizedString("info", comment: ""), message: message, preferredStyle: .alert)
+        let okButton = UIAlertAction(title: NSLocalizedString("accept", comment: ""), style: .default) {
+            (action) in self.checkLocationServices()
+        }
+        
+        alertController.addAction(okButton)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc private func profileButtonPressed() {
+        
+    }
+    
+    @objc private func logOutButtonPressed() {
+        FirebaseManager.logOut()
+    }
+    
+    @objc private func sendAlertButtonPressed() {
+        
+    }
+    
+    @objc private func logoutErrorEvent() {
+        self.showAlert(message: NSLocalizedString("logoutError", comment: ""))
+    }
+    
+    @objc private func logoutSuccessEvent() {
+        self.present(LoginVC(), animated: true, completion: nil)
     }
 }
 

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		932136B024DA0E1B004384F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932136AF24DA0E1B004384F3 /* AppDelegate.swift */; };
-		932136B224DA0E1B004384F3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932136B124DA0E1B004384F3 /* ViewController.swift */; };
 		932136B724DA0E1E004384F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 932136B624DA0E1E004384F3 /* Assets.xcassets */; };
 		932136BA24DA0E1E004384F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 932136B824DA0E1E004384F3 /* LaunchScreen.storyboard */; };
 		932136C524DA0E1E004384F3 /* SafeMappTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932136C424DA0E1E004384F3 /* SafeMappTests.swift */; };
@@ -50,7 +49,6 @@
 		730B9FBFBBF6190CE013DEC6 /* Pods_SafeMapp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SafeMapp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		932136AC24DA0E1B004384F3 /* SafeMapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SafeMapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		932136AF24DA0E1B004384F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		932136B124DA0E1B004384F3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		932136B624DA0E1E004384F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		932136B924DA0E1E004384F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		932136C024DA0E1E004384F3 /* SafeMappTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SafeMappTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,7 +143,6 @@
 				937E407824DB307500AE1541 /* Utils */,
 				932136B624DA0E1E004384F3 /* Assets.xcassets */,
 				932136AF24DA0E1B004384F3 /* AppDelegate.swift */,
-				932136B124DA0E1B004384F3 /* ViewController.swift */,
 				932136B824DA0E1E004384F3 /* LaunchScreen.storyboard */,
 				93FBFFC924E5FD2A00B0739A /* Info.plist */,
 				93F0FEDF24DCADC0003CF409 /* GoogleService-Info.plist */,
@@ -391,7 +388,6 @@
 			files = (
 				9356466424E4815000B9B210 /* Notifications.swift in Sources */,
 				93FBFFC524E5CD3900B0739A /* MapVC.swift in Sources */,
-				932136B224DA0E1B004384F3 /* ViewController.swift in Sources */,
 				932136B024DA0E1B004384F3 /* AppDelegate.swift in Sources */,
 				932136E024DA1295004384F3 /* LoginVC.swift in Sources */,
 				93FBFFC324E5CBA500B0739A /* MainVC.swift in Sources */,
