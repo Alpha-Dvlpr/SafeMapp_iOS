@@ -161,7 +161,7 @@ class MapVC: UIViewController {
     }
     
     @objc private func profileButtonPressed() {
-        
+        self.present(ProfileVC(), animated: true, completion: nil)
     }
     
     @objc private func logOutButtonPressed() {

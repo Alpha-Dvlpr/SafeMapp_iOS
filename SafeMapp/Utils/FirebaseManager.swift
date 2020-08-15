@@ -116,4 +116,27 @@ class FirebaseManager {
         NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Notifications.logoutSuccess)))
         hud.hide(animated: true)
     }
+    
+    static func getUserInfo(onView: UIView) -> [String] {
+        //TODO: This is for registering the info changes, not for getting it
+//        var userData: [String] = []
+//        let hud = MBProgressHUD.showAdded(to: onView, animated: true)
+//        hud.mode = .indeterminate
+//
+//        let currentUser = Auth.auth().currentUser?.uid
+//
+//        databaseReference.child(usersReference).child(currentUser!).observe(
+//            .childChanged,
+//            with: { (snapshot) in
+//                userData.append(snapshot.value(forKey: "userName") as! String)
+//                userData.append(snapshot.value(forKey: "email") as! String)
+//                userData.append(snapshot.hasChild("image") ? snapshot.value(forKey: "image") as! String : "")
+//                hud.hide(animated: true)
+//            }) { (error) in
+//                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Notifications.getUserInfoError)))
+//                hud.hide(animated: true)
+//            }
+//
+//        return userData
+    }
 }

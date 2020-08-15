@@ -10,6 +10,7 @@ register = "Register";
 resetPasswordInfo = "By clicking on Send button a reset password email will be sent to your Email.";
 send = "Send";
 createAccount = "Create Account";
+updateProfile = "Update profile";
 emailRequired = "You must type an email";
 emailAndPasswordRequired = "You must type an email and password";
 allFieldsRequired = "All fields are required";

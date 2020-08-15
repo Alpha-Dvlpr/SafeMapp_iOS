@@ -18,4 +18,5 @@ class Notifications {
     static let loginError = "com.alphadvlpr.loginError"
     static let logoutSuccess = "com.alphadvlpr.logoutSuccess"
     static let logoutError = "com.alphadvlpr.logoutError"
+    static let getUserInfoError = "com.alphadvlpr.getuserinfoerror"
 }

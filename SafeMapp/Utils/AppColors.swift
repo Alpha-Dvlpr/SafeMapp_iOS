@@ -11,4 +11,5 @@ import UIKit
 class AppColors {
     static let greenColor = UIColor(red: 8/255, green: 149/255, blue: 68/255, alpha: 1.0)
     static let redColor = UIColor(red: 201/255, green: 2/255, blue: 2/255, alpha: 1.0)
+    static let grayColor = UIColor(red: 135/255, green: 135/255, blue: 135/255, alpha: 1.0)
 }
