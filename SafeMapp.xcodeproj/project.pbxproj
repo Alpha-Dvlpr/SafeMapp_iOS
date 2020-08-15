@@ -140,6 +140,7 @@
 			children = (
 				932136DD24DA1266004384F3 /* Login */,
 				932136DE24DA1276004384F3 /* MainScreen */,
+				93676E7524E83F630088032A /* Profile */,
 				937E407824DB307500AE1541 /* Utils */,
 				932136B624DA0E1E004384F3 /* Assets.xcassets */,
 				932136AF24DA0E1B004384F3 /* AppDelegate.swift */,
@@ -186,6 +187,13 @@
 				93FBFFC624E5CD5B00B0739A /* RequestsVC.swift */,
 			);
 			path = MainScreen;
+			sourceTree = "<group>";
+		};
+		93676E7524E83F630088032A /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		937E407824DB307500AE1541 /* Utils */ = {
@@ -587,13 +595,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 49G7L7QASD;
+				DEVELOPMENT_TEAM = FLYLZ94A58;
 				INFOPLIST_FILE = SafeMapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.alphadvlpr.SafeMapp;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alpha-dvlpr.SafeMapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -606,13 +614,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 49G7L7QASD;
+				DEVELOPMENT_TEAM = FLYLZ94A58;
 				INFOPLIST_FILE = SafeMapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.alphadvlpr.SafeMapp;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alpha-dvlpr.SafeMapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

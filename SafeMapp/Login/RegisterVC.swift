@@ -183,7 +183,8 @@ class RegisterVC: UIViewController {
             FirebaseManager.registerNewUser(
                 email: email,
                 password: password,
-                nickname: nickname
+                nickname: nickname,
+                onView: view
             )
         }
     }
@@ -198,6 +199,7 @@ class RegisterVC: UIViewController {
     
     @objc private func registerSuccessEvent() {
         ToastNotification.shared.long(view, txt_msg: NSLocalizedString("registerSuccess", comment: ""))
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             self.dismiss(animated: true, completion: nil)
         }

@@ -165,7 +165,7 @@ class MapVC: UIViewController {
     }
     
     @objc private func logOutButtonPressed() {
-        FirebaseManager.logOut()
+        FirebaseManager.logOut(onView: view)
     }
     
     @objc private func sendAlertButtonPressed() {

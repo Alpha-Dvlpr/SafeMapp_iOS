@@ -189,7 +189,8 @@ class LoginVC: UIViewController {
         } else {
             FirebaseManager.loginUser(
                 email: email,
-                password: password
+                password: password,
+                onView: view
             )
         }
     }

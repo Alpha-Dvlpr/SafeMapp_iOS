@@ -170,7 +170,10 @@ class ForgotPasswordVC: UIViewController {
         if email == "" {
             ToastNotification.shared.long(view, txt_msg: NSLocalizedString("emailRequired", comment: ""))
         } else {
-            FirebaseManager.sendRecoverPasswordEmail(email: email)
+            FirebaseManager.sendRecoverPasswordEmail(
+                email: email,
+                onView: view
+            )
         }
     }
     
