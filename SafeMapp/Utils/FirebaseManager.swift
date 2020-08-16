@@ -143,4 +143,28 @@ class FirebaseManager {
                 hud.hide(animated: true)
             }
     }
+    
+    static func updateUserInfo(onView: UIView, nickname: String, image: UIImage) {
+        let currentUser = Auth.auth().currentUser?.uid
+        let hud = MBProgressHUD.showAdded(to: onView, animated: true)
+        hud.mode = .indeterminate
+        
+        let userInfo: [String: String] = [
+            "userName": "",
+            "image": ""
+        ]
+        
+        //upload photo and get url
+        
+        databaseReference.child(usersReference).child(currentUser!).updateChildValues(userInfo, withCompletionBlock: { (databaseError, reference) in
+            if databaseError != nil {
+                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Notifications.updateUserInfoError)))
+                hud.hide(animated: true)
+                return
+            }
+            
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Notifications.updateUserInfoSuccess)))
+            hud.hide(animated: true)
+        })
+    }
 }

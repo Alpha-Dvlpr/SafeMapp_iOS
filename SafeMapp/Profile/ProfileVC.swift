@@ -71,10 +71,19 @@ class ProfileVC: UIViewController {
         return view
     }()
     
+    let versionLabel: UILabel = {
+        let view = UILabel()
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        view.text = "\(NSLocalizedString("version", comment: "")): \(appVersion!)"
+        view.font = .systemFont(ofSize: 12)
+        return view
+    }()
+    
     var changesMade: Bool = false
     var userInfo: [String]!
     var originalNickname: String!
     var newNickname: String!
+    var newImage: UIImage!
     var imageChanged: Bool = false
     
     override func viewDidLoad() {
@@ -97,6 +106,8 @@ class ProfileVC: UIViewController {
     private func addNotificationObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(getUserInfoErrorEvent), name: NSNotification.Name(rawValue: Notifications.getUserInfoError), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(getUserInfoSuccessEvent(_:)), name: NSNotification.Name(rawValue: Notifications.getUserInfoSuccess), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUserInfoErrorEvent), name: NSNotification.Name(rawValue: Notifications.updateUserInfoError), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUserInfoSuccessEvent), name: NSNotification.Name(rawValue: Notifications.updateUserInfoSuccess), object: nil)
     }
     
     private func addViews() {
@@ -109,6 +120,7 @@ class ProfileVC: UIViewController {
         view.addSubview(emailTextField)
         view.addSubview(updateProfileButton)
         view.addSubview(cancelButton)
+        view.addSubview(versionLabel)
         
         [
             usernameTextField,
@@ -150,7 +162,8 @@ class ProfileVC: UIViewController {
             usernameTextField,
             emailTextField,
             updateProfileButton,
-            cancelButton
+            cancelButton,
+            versionLabel
         ].forEach { (view) in
             view.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -175,6 +188,7 @@ class ProfileVC: UIViewController {
         userImage.widthAnchor.constraint(equalToConstant: 100).isActive = true
         userImage.heightAnchor.constraint(equalToConstant: 100).isActive = true
         userImage.layer.cornerRadius = 50
+        userImage.layer.masksToBounds = true
         
         addImageButton.bottomAnchor.constraint(equalTo: userImage.bottomAnchor, constant: 0).isActive = true
         addImageButton.trailingAnchor.constraint(equalTo: userImage.trailingAnchor, constant: 0).isActive = true
@@ -200,6 +214,9 @@ class ProfileVC: UIViewController {
         cancelButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24).isActive = true
         cancelButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
         cancelButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        versionLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -12).isActive = true
+        versionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12).isActive = true
     }
     
     private func checkChanges() {
@@ -213,21 +230,20 @@ class ProfileVC: UIViewController {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { (granted) in
-                if granted {
-                    print("camera granted")
-                } else{
-                    print("you are dumb asf...")
-                }
+                if granted { self.openCamera() }
+                else{ self.showAlert(message: NSLocalizedString("cameraDenied", comment: "")) }
             }
             break
         case .restricted:
             print("camera restricted")
+            self.showAlert(message: NSLocalizedString("cameraRestricted", comment: ""))
             break
         case .denied:
             print("camera denied")
+            self.showAlert(message: NSLocalizedString("cameraDenied", comment: ""))
             break
         case .authorized:
-            print("camera authorized")
+            self.openCamera()
             break
         }
     }
@@ -236,23 +252,46 @@ class ProfileVC: UIViewController {
         switch PHPhotoLibrary.authorizationStatus() {
         case .notDetermined:
             PHPhotoLibrary.requestAuthorization { (status) in
-                print("galery granted")
+                if status == .authorized { self.openGallery() }
+                else { self.showAlert(message: NSLocalizedString("galleryDenied", comment: "")) }
             }
             break
         case .restricted:
-            print("gallery restricted")
+            self.showAlert(message: NSLocalizedString("galleryRestricted", comment: ""))
             break
         case .denied:
-            print("gallery denied")
+            self.showAlert(message: NSLocalizedString("galleryDenied", comment: ""))
             break
         case .authorized:
-            print("gallery authorized")
+            self.openGallery()
             break
         }
     }
     
+    private func openCamera() {
+        let cameraController = UIImagePickerController()
+        cameraController.sourceType = .camera
+        cameraController.allowsEditing = true
+        cameraController.delegate = self
+        
+        self.present(cameraController, animated: true)
+    }
+    
+    private func openGallery() {
+        
+    }
+    
+    private func showAlert(message: String) {
+        let alertController = UIAlertController(title: NSLocalizedString("info", comment: ""), message: message, preferredStyle: .alert)
+        let okButton = UIAlertAction(title: NSLocalizedString("accept", comment: ""), style: .default, handler: nil)
+        
+        alertController.addAction(okButton)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     @objc private func getUserInfoErrorEvent() {
-        ToastNotification.shared.long(view, txt_msg: "Error al obtener los datos del usuario")
+        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("getUserInfoError", comment: ""))
     }
     
     @objc private func getUserInfoSuccessEvent(_ notification: NSNotification) {
@@ -271,11 +310,24 @@ class ProfileVC: UIViewController {
         }
     }
     
+    @objc private func nicknameChangedEvent(_ textField: UITextField) {
+        self.newNickname = textField.text
+        self.checkChanges()
+    }
+    
+    @objc private func updateUserInfoErrorEvent() {
+        //add notifications
+    }
+    
+    @objc private func updateUserInfoSuccessEvent() {
+        //add notifications
+    }
+    
     @objc private func userImageTapped() {
-        let alert = UIAlertController(title: "CAMBIAR FOTO DE PERFIL", message: "Seleccione un método para cambiar su foto de perfil", preferredStyle: .actionSheet)
-        let cameraAction = UIAlertAction(title: "Cámara", style: .default) { (action) in self.checkCameraPermission() }
-        let galleryAction = UIAlertAction(title: "Galería", style: .default) { (action) in self.checkGalleryPermission() }
-        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
+        let alert = UIAlertController(title: NSLocalizedString("changeProfileImageTitle", comment: ""), message: NSLocalizedString("changeProfileImageDescription", comment: ""), preferredStyle: .actionSheet)
+        let cameraAction = UIAlertAction(title: NSLocalizedString("camera", comment: ""), style: .default) { (action) in self.checkCameraPermission() }
+        let galleryAction = UIAlertAction(title: NSLocalizedString("gallery", comment: ""), style: .default) { (action) in self.checkGalleryPermission() }
+        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .cancel, handler: nil)
         
         alert.addAction(cameraAction)
         alert.addAction(galleryAction)
@@ -284,16 +336,25 @@ class ProfileVC: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    @objc private func nicknameChangedEvent(_ textField: UITextField) {
-        self.newNickname = textField.text
-        self.checkChanges()
-    }
-    
     @objc private func updateProfileButtonPressed() {
-        print("updating profile")
+        FirebaseManager.updateUserInfo(onView: view, nickname: self.newNickname, image: self.newImage)
     }
     
     @objc private func cancelButtonPressed() {
         self.dismiss(animated: true, completion: nil)
     }
 }
+
+extension ProfileVC: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        guard let image = info[.editedImage] as? UIImage else { return }
+        
+        self.userImage.image = image
+        self.newImage = image
+        self.imageChanged = true
+        self.checkChanges()
+    }
+}
+

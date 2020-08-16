@@ -20,4 +20,6 @@ class Notifications {
     static let logoutError = "com.alphadvlpr.logoutError"
     static let getUserInfoError = "com.alphadvlpr.getuserinfoerror"
     static let getUserInfoSuccess = "com.alphadvlpr.getuserinfosuccess"
+    static let updateUserInfoError = "com.alphadvlpr.updateuserinfoerror"
+    static let updateUserInfoSuccess = "com.alphadvlpr.updateuserinfosuccess"
 }
