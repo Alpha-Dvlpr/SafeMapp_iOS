@@ -117,26 +117,30 @@ class FirebaseManager {
         hud.hide(animated: true)
     }
     
-    static func getUserInfo(onView: UIView) -> [String] {
-        //TODO: This is for registering the info changes, not for getting it
-//        var userData: [String] = []
-//        let hud = MBProgressHUD.showAdded(to: onView, animated: true)
-//        hud.mode = .indeterminate
-//
-//        let currentUser = Auth.auth().currentUser?.uid
-//
-//        databaseReference.child(usersReference).child(currentUser!).observe(
-//            .childChanged,
-//            with: { (snapshot) in
-//                userData.append(snapshot.value(forKey: "userName") as! String)
-//                userData.append(snapshot.value(forKey: "email") as! String)
-//                userData.append(snapshot.hasChild("image") ? snapshot.value(forKey: "image") as! String : "")
-//                hud.hide(animated: true)
-//            }) { (error) in
-//                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Notifications.getUserInfoError)))
-//                hud.hide(animated: true)
-//            }
-//
-//        return userData
+    static func getUserInfo(onView: UIView) {
+        let currentUser = Auth.auth().currentUser?.uid
+        let hud = MBProgressHUD.showAdded(to: onView, animated: true)
+        hud.mode = .indeterminate
+        
+        databaseReference.child(usersReference).child(currentUser!).observeSingleEvent(
+            of: .value,
+            with: { (snapshot) in
+                let value = snapshot.value as? NSDictionary
+                let userData: [String: String] = [
+                    "nick": value?["userName"] as? String ?? "none",
+                    "mail": value?["email"] as? String ?? "none",
+                    "photo": value?["image"] as? String ?? "none"
+                ]
+                
+                NotificationCenter.default.post(
+                    name: Notification.Name(rawValue: Notifications.getUserInfoSuccess),
+                    object: nil,
+                    userInfo: userData
+                )
+                hud.hide(animated: true)
+            }) { (error) in
+                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Notifications.getUserInfoError)))
+                hud.hide(animated: true)
+            }
     }
 }

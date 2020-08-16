@@ -34,6 +34,13 @@ class ProfileVC: UIViewController {
         return view
     }()
     
+    let addImageButton: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "addimage")
+        view.tintColor = AppColors.greenColor
+        return view
+    }()
+    
     let usernameTextField: UITextField = {
         let view = UITextField()
         view.placeholder = NSLocalizedString("username", comment: "")
@@ -47,11 +54,6 @@ class ProfileVC: UIViewController {
         view.keyboardType = .emailAddress
         return view
     }()
-    
-    //imageview con imagen cargada y tap gesture para ambiar, permisos
-    //campo de texto para nickname
-    //campo de texto para email
-    //variable para detectar cambios
     
     let updateProfileButton: UIButton = {
         let view = UIButton()
@@ -68,6 +70,10 @@ class ProfileVC: UIViewController {
     }()
     
     var changesMade: Bool = false
+    var userInfo: [String]!
+    var originalNickname: String!
+    var newNickname: String!
+    var imageChanged: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,7 +83,9 @@ class ProfileVC: UIViewController {
         self.addNotificationObservers()
         self.addViews()
         self.setupConstraints()
-        self.getAndSetData()
+        self.checkChanges()
+        
+        FirebaseManager.getUserInfo(onView: view)
     }
     
     deinit {
@@ -86,6 +94,7 @@ class ProfileVC: UIViewController {
     
     private func addNotificationObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(getUserInfoErrorEvent), name: NSNotification.Name(rawValue: Notifications.getUserInfoError), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(getUserInfoSuccessEvent(_:)), name: NSNotification.Name(rawValue: Notifications.getUserInfoSuccess), object: nil)
     }
     
     private func addViews() {
@@ -93,6 +102,7 @@ class ProfileVC: UIViewController {
         view.addSubview(logoImage)
         view.addSubview(logoName)
         view.addSubview(userImage)
+        view.addSubview(addImageButton)
         view.addSubview(usernameTextField)
         view.addSubview(emailTextField)
         view.addSubview(updateProfileButton)
@@ -117,14 +127,15 @@ class ProfileVC: UIViewController {
             view.titleLabel?.font = .systemFont(ofSize: 13)
         }
         
-        updateProfileButton.isEnabled = changesMade
-        updateProfileButton.backgroundColor = changesMade ? AppColors.greenColor : AppColors.grayColor
-        
         userImage.isUserInteractionEnabled = true
+        addImageButton.isUserInteractionEnabled = true
+        emailTextField.isEnabled = false
         
         userImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(userImageTapped)))
+        addImageButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(userImageTapped)))
         updateProfileButton.addTarget(self, action: #selector(updateProfileButtonPressed), for: .touchUpInside)
         cancelButton.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
+        usernameTextField.addTarget(self, action: #selector(nicknameChangedEvent(_:)), for: .editingChanged)
     }
     
     private func setupConstraints() {
@@ -133,6 +144,7 @@ class ProfileVC: UIViewController {
             logoImage,
             logoName,
             userImage,
+            addImageButton,
             usernameTextField,
             emailTextField,
             updateProfileButton,
@@ -162,6 +174,11 @@ class ProfileVC: UIViewController {
         userImage.heightAnchor.constraint(equalToConstant: 100).isActive = true
         userImage.layer.cornerRadius = 50
         
+        addImageButton.bottomAnchor.constraint(equalTo: userImage.bottomAnchor, constant: 0).isActive = true
+        addImageButton.trailingAnchor.constraint(equalTo: userImage.trailingAnchor, constant: 0).isActive = true
+        addImageButton.widthAnchor.constraint(equalToConstant: 33).isActive = true
+        addImageButton.heightAnchor.constraint(equalToConstant: 33).isActive = true
+        
         usernameTextField.topAnchor.constraint(equalTo: userImage.bottomAnchor, constant: 32).isActive = true
         usernameTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24).isActive = true
         usernameTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
@@ -183,27 +200,47 @@ class ProfileVC: UIViewController {
         cancelButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
     
-    private func getAndSetData() {
-//        let userInfo = FirebaseManager.getUserInfo(onView: view)
-//        
-//        if userInfo.count == 0 {
-//            ToastNotification.shared.long(view, txt_msg: "No hay na")
-//        } else {
-//            self.usernameTextField.text = userInfo[0]
-//            self.emailTextField.text = userInfo[1]
-//        }
+    private func checkChanges() {
+        self.changesMade = (self.imageChanged || (self.originalNickname != self.newNickname))
+        
+        updateProfileButton.isEnabled = changesMade
+        updateProfileButton.backgroundColor = changesMade ? AppColors.greenColor : AppColors.grayColor
     }
     
     @objc private func getUserInfoErrorEvent() {
         ToastNotification.shared.long(view, txt_msg: "Error al obtener los datos del usuarion")
     }
     
+    @objc private func getUserInfoSuccessEvent(_ notification: NSNotification) {
+        if let userData = notification.userInfo as NSDictionary? {
+            if let nick = userData["nick"], let mail = userData["mail"], let photo = userData["photo"] {
+                self.usernameTextField.text = nick as? String
+                self.emailTextField.text = mail as? String
+                
+                self.originalNickname = nick as? String
+                self.newNickname = nick as? String
+                
+                if photo as? String != "none" {
+                    print("\(photo)")
+                }
+            }
+        }
+    }
+    
     @objc private func userImageTapped() {
-        print("image pressed")
-        self.changesMade.toggle()
         
-        self.updateProfileButton.isEnabled = self.changesMade
-        self.updateProfileButton.backgroundColor = self.changesMade ? AppColors.greenColor : AppColors.grayColor
+        
+        
+        
+        
+        
+        self.imageChanged.toggle()
+        self.checkChanges()
+    }
+    
+    @objc private func nicknameChangedEvent(_ textField: UITextField) {
+        self.newNickname = textField.text
+        self.checkChanges()
     }
     
     @objc private func updateProfileButtonPressed() {
