@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AVKit
+import Photos
 
 class ProfileVC: UIViewController {
 
@@ -207,8 +209,50 @@ class ProfileVC: UIViewController {
         updateProfileButton.backgroundColor = changesMade ? AppColors.greenColor : AppColors.grayColor
     }
     
+    private func checkCameraPermission() {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { (granted) in
+                if granted {
+                    print("camera granted")
+                } else{
+                    print("you are dumb asf...")
+                }
+            }
+            break
+        case .restricted:
+            print("camera restricted")
+            break
+        case .denied:
+            print("camera denied")
+            break
+        case .authorized:
+            print("camera authorized")
+            break
+        }
+    }
+    
+    private func checkGalleryPermission() {
+        switch PHPhotoLibrary.authorizationStatus() {
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization { (status) in
+                print("galery granted")
+            }
+            break
+        case .restricted:
+            print("gallery restricted")
+            break
+        case .denied:
+            print("gallery denied")
+            break
+        case .authorized:
+            print("gallery authorized")
+            break
+        }
+    }
+    
     @objc private func getUserInfoErrorEvent() {
-        ToastNotification.shared.long(view, txt_msg: "Error al obtener los datos del usuarion")
+        ToastNotification.shared.long(view, txt_msg: "Error al obtener los datos del usuario")
     }
     
     @objc private func getUserInfoSuccessEvent(_ notification: NSNotification) {
@@ -228,14 +272,16 @@ class ProfileVC: UIViewController {
     }
     
     @objc private func userImageTapped() {
+        let alert = UIAlertController(title: "CAMBIAR FOTO DE PERFIL", message: "Seleccione un método para cambiar su foto de perfil", preferredStyle: .actionSheet)
+        let cameraAction = UIAlertAction(title: "Cámara", style: .default) { (action) in self.checkCameraPermission() }
+        let galleryAction = UIAlertAction(title: "Galería", style: .default) { (action) in self.checkGalleryPermission() }
+        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
         
+        alert.addAction(cameraAction)
+        alert.addAction(galleryAction)
+        alert.addAction(cancelAction)
         
-        
-        
-        
-        
-        self.imageChanged.toggle()
-        self.checkChanges()
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc private func nicknameChangedEvent(_ textField: UITextField) {

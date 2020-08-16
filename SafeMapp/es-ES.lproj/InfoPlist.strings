@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings (ES - ES)
+  SafeMapp
+
+  Created by Aarón on 16/8/20.
+  Copyright © 2020 Aarón. All rights reserved.
+*/
+"NSLocationWhenInUseUsageDescription" = "Se necesita acceder a su ubicación para localizar usuarios en apuros cerca de su posición";
+"NSCameraUsageDescription" = "Se necesita acceder a la cámara para cambiar su foto de perfil";
+"NSPhotoLibraryUsageDescription" = "Se necesita acceder a la galería para cambiar su foto de perfil";

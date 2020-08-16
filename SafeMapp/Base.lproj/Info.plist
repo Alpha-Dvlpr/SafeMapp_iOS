@@ -3,7 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>The app needs your location to track people who need hel pear you.</string>
+	<string>Se necesita acceder a su ubicación para poder rastrear a las personas en apuros cerca de su ubicación actual</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Se necesita acceder a la cámara para poder cambiar su foto de perfil.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Se necesita acceder a la galería para poder cambiar su foto de perfil.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
