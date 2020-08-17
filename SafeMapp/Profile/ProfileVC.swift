@@ -9,6 +9,7 @@
 import UIKit
 import AVKit
 import Photos
+import MBProgressHUD
 
 class ProfileVC: UIViewController {
 
@@ -278,7 +279,12 @@ class ProfileVC: UIViewController {
     }
     
     private func openGallery() {
+        let galleryController = UIImagePickerController()
+        galleryController.sourceType = .photoLibrary
+        galleryController.allowsEditing = true
+        galleryController.delegate = self
         
+        self.present(galleryController, animated: true)
     }
     
     private func showAlert(message: String) {
@@ -303,8 +309,19 @@ class ProfileVC: UIViewController {
                 self.originalNickname = nick as? String
                 self.newNickname = nick as? String
                 
-                if photo as? String != "none" {
-                    print("\(photo)")
+                if photo as! String != "none" {
+                    let url = URL(string: photo as! String)
+                    
+                    URLSession.shared.dataTask(with: url!) { (data, response, error) in
+                        if error != nil {
+                            ToastNotification.shared.long(self.view, txt_msg: NSLocalizedString("loadImageError", comment: ""))
+                            return
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.userImage.image = UIImage(data: data!)
+                        }
+                    }.resume()
                 }
             }
         }
@@ -316,11 +333,18 @@ class ProfileVC: UIViewController {
     }
     
     @objc private func updateUserInfoErrorEvent() {
-        //add notifications
+        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("updateUserInfoError", comment: ""))
     }
     
     @objc private func updateUserInfoSuccessEvent() {
-        //add notifications
+        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("updateUserInfoSuccess", comment: ""))
+        
+        self.changesMade = false
+        self.originalNickname = self.newNickname
+        self.newImage = nil
+        self.imageChanged = false
+        
+        self.checkChanges()
     }
     
     @objc private func userImageTapped() {
@@ -337,7 +361,11 @@ class ProfileVC: UIViewController {
     }
     
     @objc private func updateProfileButtonPressed() {
-        FirebaseManager.updateUserInfo(onView: view, nickname: self.newNickname, image: self.newImage)
+        FirebaseManager.uploadUserImage(
+            onView: view,
+            nickname: self.newNickname == nil ? self.originalNickname : self.newNickname,
+            image: self.newImage == nil ? nil : self.newImage
+        )
     }
     
     @objc private func cancelButtonPressed() {
@@ -357,4 +385,3 @@ extension ProfileVC: UINavigationControllerDelegate, UIImagePickerControllerDele
         self.checkChanges()
     }
 }
-

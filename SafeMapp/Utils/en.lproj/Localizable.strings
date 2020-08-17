@@ -38,3 +38,6 @@ cameraRestricted = "It seems 'Camera' is restricted on your device. If you have 
 cameraDenied = "The app needs permission to access the camera to change your profile picture. To enable it go to:\n\nSettings -> 'SafeMapp' -> Camera";
 galleryRestricted = "It seems 'Photos' is restricted on your device. If you have 'Parental Control' enabled grant permission to 'SafeMapp' to access your gallery.";
 galleryDenied = "The app needs permission to access the gallery to change your profile picture. To enable it go to:\n\nSettings -> 'SafeMapp' -> Photos -> Read and Write";
+updateUserInfoError = "Error saving your data.";
+updateUserInfoSuccess = "Data saved successfully.";
+loadImageError = "Error loading image.";

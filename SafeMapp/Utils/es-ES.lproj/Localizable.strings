@@ -38,3 +38,6 @@ cameraRestricted = "Al parecer el acceso a 'Cámara' está restringido en su dis
 cameraDenied = "Se necesita acceso a la cámara para poder cambiar la foto de perfil. Para activarlo ve a:\n\nAjustes -> 'SafeMapp' -> Cámara";
 galleryRestricted = "Al parecer el acceso a 'Fotos' está restringido en su dispositivo. Si tiene activo 'Control parental' conceda permiso a 'SafeMapp' para acceder a la galería.";
 galleryDenied = "Se necesita acceso a la galería para poder cambiar la foto de perfil. Para activarlo ve a:\n\nAjustes -> 'SafeMapp' -> Fotos -> Lectura y escritura";
+updateUserInfoError = "Error al guardar los datos.";
+updateUserInfoSuccess = "Datos guardados con éxito.";
+loadImageError = "Error al cargar la imagen.";

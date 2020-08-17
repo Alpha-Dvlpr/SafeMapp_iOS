@@ -36,7 +36,7 @@ class MapVC: UIViewController {
     }()
     
     let locationManager: CLLocationManager = CLLocationManager()
-    let locationInMeters: Double = 2500
+    let locationInMeters: Double = 2000
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -169,7 +169,12 @@ class MapVC: UIViewController {
     }
     
     @objc private func sendAlertButtonPressed() {
+        let dialog = UIAlertController(title: "INFO", message: "Has lanzado una alerta", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         
+        dialog.addAction(okAction)
+        
+        self.present(dialog, animated: true, completion: nil)
     }
     
     @objc private func logoutErrorEvent() {

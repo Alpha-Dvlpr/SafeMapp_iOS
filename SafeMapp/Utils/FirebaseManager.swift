@@ -8,10 +8,12 @@
 
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseStorage
 import MBProgressHUD
 
 class FirebaseManager {
     private static let databaseReference = Database.database().reference(fromURL: "https://safemapp-8c432.firebaseio.com/")
+    private static let storageReference = Storage.storage().reference()
     private static let usersReference = "Users"
     private static let notificationsReference = "Notifications"
     private static let requestsReference = "Request"
@@ -144,20 +146,58 @@ class FirebaseManager {
             }
     }
     
-    static func updateUserInfo(onView: UIView, nickname: String, image: UIImage) {
+    static func uploadUserImage(onView: UIView, nickname: String, image: UIImage? = nil) {
         let currentUser = Auth.auth().currentUser?.uid
         let hud = MBProgressHUD.showAdded(to: onView, animated: true)
         hud.mode = .indeterminate
         
-        let userInfo: [String: String] = [
-            "userName": "",
-            "image": ""
-        ]
+        if image != nil {
+            let imageReference = storageReference.child(usersReference).child("\(currentUser!).jpeg")
+            imageReference.putData(
+                image!.jpegData(compressionQuality: 0.8)!,
+                metadata: nil
+            ) { (metadata, error) in
+                if error != nil {
+                    let userInfo: [String: String] = [ "userName" : nickname ]
+                    
+                    self.updateUserInformation(onView: onView, userInfo: userInfo)
+                    hud.hide(animated: true)
+                    return
+                }
+                
+                imageReference.downloadURL(completion: { (url, error) in
+                    guard let downloadURL = url else {
+                        let userInfo: [String: String] = [ "userName" : nickname ]
+                        
+                        self.updateUserInformation(onView: onView, userInfo: userInfo)
+                        hud.hide(animated: true)
+                        return
+                    }
+                    
+                    let userInfo: [String: String] = [
+                        "userName": nickname,
+                        "image": downloadURL.absoluteString
+                    ]
+                    
+                    self.updateUserInformation(onView: onView, userInfo: userInfo)
+                    hud.hide(animated: true)
+                })
+            }
+        } else {
+            let userInfo: [String: String] = [ "userName" : nickname ]
+            
+            self.updateUserInformation(onView: onView, userInfo: userInfo)
+            hud.hide(animated: true)
+        }
+    }
+    
+    private static func updateUserInformation(onView: UIView, userInfo: [String: String]) {
+        let currentUser = Auth.auth().currentUser?.uid
+        let hud = MBProgressHUD.showAdded(to: onView, animated: true)
+        hud.mode = .indeterminate
         
-        //upload photo and get url
-        
-        databaseReference.child(usersReference).child(currentUser!).updateChildValues(userInfo, withCompletionBlock: { (databaseError, reference) in
-            if databaseError != nil {
+        databaseReference.child(usersReference).child(currentUser!).updateChildValues(userInfo) { (error, reference) in
+            if error != nil {
                 NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Notifications.updateUserInfoError)))
                 hud.hide(animated: true)
                 return
@@ -165,6 +205,6 @@ class FirebaseManager {
             
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Notifications.updateUserInfoSuccess)))
             hud.hide(animated: true)
-        })
+        }
     }
 }
