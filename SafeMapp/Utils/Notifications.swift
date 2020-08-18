@@ -22,4 +22,5 @@ class Notifications {
     static let getUserInfoSuccess = "com.alphadvlpr.getuserinfosuccess"
     static let updateUserInfoError = "com.alphadvlpr.updateuserinfoerror"
     static let updateUserInfoSuccess = "com.alphadvlpr.updateuserinfosuccess"
+    static let sendAlertSignal = "com.alphadvlpr.senalertsignal"
 }

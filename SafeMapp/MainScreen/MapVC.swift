@@ -48,6 +48,7 @@ class MapVC: UIViewController {
         self.setupConstraints()
         self.checkLocationServices()
         self.addNotificationObservers()
+        self.setupIntents()
     }
     
     deinit {
@@ -57,6 +58,18 @@ class MapVC: UIViewController {
     private func addNotificationObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(logoutErrorEvent), name: Notification.Name(rawValue: Notifications.logoutError), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(logoutSuccessEvent), name: Notification.Name(rawValue: Notifications.logoutSuccess), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(sendAlertSignalEvent), name: Notification.Name(rawValue: Notifications.sendAlertSignal), object: nil)
+    }
+    
+    private func setupIntents() {
+        let activity = NSUserActivity(activityType: "com.alpha-dvlpr.SafeMapp.sayHi")
+        activity.title = NSLocalizedString("safeMappAlert", comment: "")
+        activity.userInfo = ["speech" : "hi"]
+        activity.isEligibleForSearch = true
+        activity.isEligibleForPrediction = true
+        activity.persistentIdentifier = NSUserActivityPersistentIdentifier("com.alpha-dvlpr.SafeMapp.sayHi")
+        view.userActivity = activity
+        activity.becomeCurrent()
     }
     
     private func addViews(){
@@ -72,6 +85,11 @@ class MapVC: UIViewController {
         profileButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileButtonPressed)))
         logOutButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(logOutButtonPressed)))
         sendAlertButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendAlertButtonPressed)))
+    }
+    
+    public func sendAlertSignal() {
+        
+        ToastNotification.shared.long(view, txt_msg: "Enviando alerta...")
     }
     
     private func setupConstraints() {
@@ -170,7 +188,7 @@ class MapVC: UIViewController {
     }
     
     @objc private func sendAlertButtonPressed() {
-        MainVC.shared.sendAlertSignal()
+        self.sendAlertSignal()
     }
     
     @objc private func logoutErrorEvent() {
@@ -179,6 +197,10 @@ class MapVC: UIViewController {
     
     @objc private func logoutSuccessEvent() {
         self.present(LoginVC(), animated: true, completion: nil)
+    }
+    
+    @objc private func sendAlertSignalEvent() {
+        self.sendAlertSignal()
     }
 }
 
