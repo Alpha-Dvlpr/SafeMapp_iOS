@@ -41,3 +41,4 @@ galleryDenied = "Se necesita acceso a la galería para poder cambiar la foto de 
 updateUserInfoError = "Error al guardar los datos.";
 updateUserInfoSuccess = "Datos guardados con éxito.";
 loadImageError = "Error al cargar la imagen.";
+safeMappAlert = "Alerta 'SafeMapp'";

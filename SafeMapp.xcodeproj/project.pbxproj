@@ -22,6 +22,7 @@
 		937E408124DB315000AE1541 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 937E408324DB315000AE1541 /* Localizable.strings */; };
 		937E408624DB354A00AE1541 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937E408524DB354A00AE1541 /* Extensions.swift */; };
 		93B2BE3124E33EBA00A9AD9F /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B2BE3024E33EBA00A9AD9F /* FirebaseManager.swift */; };
+		93E2170C24EB493B00B38997 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E2170B24EB493B00B38997 /* Intents.framework */; };
 		93F0FEE024DCADC0003CF409 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93F0FEDF24DCADC0003CF409 /* GoogleService-Info.plist */; };
 		93F0FEE224DCB745003CF409 /* ToastNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F0FEE124DCB745003CF409 /* ToastNotification.swift */; };
 		93FBFFC324E5CBA500B0739A /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBFFC224E5CBA500B0739A /* MainVC.swift */; };
@@ -72,6 +73,8 @@
 		937E408424DB315700AE1541 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		937E408524DB354A00AE1541 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		93B2BE3024E33EBA00A9AD9F /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		93E2170A24EB48DC00B38997 /* SafeMapp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SafeMapp.entitlements; sourceTree = "<group>"; };
+		93E2170B24EB493B00B38997 /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		93F0FEDF24DCADC0003CF409 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		93F0FEE124DCB745003CF409 /* ToastNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastNotification.swift; sourceTree = "<group>"; };
 		93FBFFC224E5CBA500B0739A /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
@@ -86,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93E2170C24EB493B00B38997 /* Intents.framework in Frameworks */,
 				F329B99354C16A5E887B0C82 /* Pods_SafeMapp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -148,6 +152,7 @@
 				932136B624DA0E1E004384F3 /* Assets.xcassets */,
 				932136AF24DA0E1B004384F3 /* AppDelegate.swift */,
 				932136B824DA0E1E004384F3 /* LaunchScreen.storyboard */,
+				93E2170A24EB48DC00B38997 /* SafeMapp.entitlements */,
 				93FBFFC924E5FD2A00B0739A /* Info.plist */,
 				931BD68924E9982200679ACA /* InfoPlist.strings */,
 				93F0FEDF24DCADC0003CF409 /* GoogleService-Info.plist */,
@@ -217,6 +222,7 @@
 		B016E7143F702016BCAC1A72 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93E2170B24EB493B00B38997 /* Intents.framework */,
 				730B9FBFBBF6190CE013DEC6 /* Pods_SafeMapp.framework */,
 			);
 			name = Frameworks;
@@ -292,6 +298,11 @@
 				TargetAttributes = {
 					932136AB24DA0E1B004384F3 = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.Siri = {
+								enabled = 1;
+							};
+						};
 					};
 					932136BF24DA0E1E004384F3 = {
 						CreatedOnToolsVersion = 10.1;
@@ -608,6 +619,7 @@
 			baseConfigurationReference = F7B9CE5FB66951BE946EEBC1 /* Pods-SafeMapp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SafeMapp/SafeMapp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FLYLZ94A58;
 				INFOPLIST_FILE = SafeMapp/Info.plist;
@@ -627,6 +639,7 @@
 			baseConfigurationReference = B80EEA31DA67E984CF95CEB2 /* Pods-SafeMapp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SafeMapp/SafeMapp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FLYLZ94A58;
 				INFOPLIST_FILE = SafeMapp/Info.plist;

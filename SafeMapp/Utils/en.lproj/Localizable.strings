@@ -41,3 +41,4 @@ galleryDenied = "The app needs permission to access the gallery to change your p
 updateUserInfoError = "Error saving your data.";
 updateUserInfoSuccess = "Data saved successfully.";
 loadImageError = "Error loading image.";
+safeMappAlert = "'SafeMapp' alert";
