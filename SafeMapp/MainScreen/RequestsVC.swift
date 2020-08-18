@@ -12,5 +12,18 @@ class RequestsVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        view.backgroundColor = .white
+        
+        self.addViews()
+        self.setupConstraints()
+    }
+    
+    private func addViews() {
+        
+    }
+    
+    private func setupConstraints() {
+        
     }
 }
