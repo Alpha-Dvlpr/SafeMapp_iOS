@@ -35,19 +35,23 @@ class MapVC: UIViewController {
         return view
     }()
     
-    let locationManager: CLLocationManager = CLLocationManager()
-    let locationInMeters: Double = 2000
     static let shared: MapVC = MapVC()
+    let locationManager: CLLocationManager = CLLocationManager()
+    let locationInMeters: Double = 2500
+    let defaultRadius: Double = 1000
+    var currentLocation: CLLocation!
+    var mapCircle: MKCircle!
+    var buttonPressed: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
+        self.addNotificationObservers()
         self.addViews()
         self.setupConstraints()
         self.checkLocationServices()
-        self.addNotificationObservers()
         self.setupIntents()
     }
     
@@ -59,24 +63,42 @@ class MapVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(logoutErrorEvent), name: Notification.Name(rawValue: Notifications.logoutError), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(logoutSuccessEvent), name: Notification.Name(rawValue: Notifications.logoutSuccess), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(sendAlertSignalEvent), name: Notification.Name(rawValue: Notifications.sendAlertSignal), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(sendLongAlertSignalStartEvent), name: Notification.Name(rawValue: Notifications.sendLongAlertSignalStart), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(sendLongAlertSignalEndEvent), name: Notification.Name(rawValue: Notifications.sendLongAlertSignalEnd), object: nil)
     }
     
-    private func setupIntents() {
-        let activity = NSUserActivity(activityType: "com.alpha-dvlpr.SafeMapp.sayHi")
-        activity.title = NSLocalizedString("safeMappAlert", comment: "")
-        activity.userInfo = ["speech" : "hi"]
-        activity.isEligibleForSearch = true
-        activity.isEligibleForPrediction = true
-        activity.persistentIdentifier = NSUserActivityPersistentIdentifier("com.alpha-dvlpr.SafeMapp.sayHi")
-        view.userActivity = activity
-        activity.becomeCurrent()
+    @objc private func logoutErrorEvent() {
+        self.showAlert(message: NSLocalizedString("logoutError", comment: ""))
     }
+    
+    @objc private func logoutSuccessEvent() {
+        self.present(LoginVC(), animated: true, completion: nil)
+    }
+    
+    @objc private func sendAlertSignalEvent() {
+        self.addCircleToMap(radiusValue: self.defaultRadius)
+        self.sendAlertSignal(distance: self.defaultRadius)
+        self.resetMapCircle()
+    }
+    
+    @objc private func sendLongAlertSignalStartEvent() {
+        self.buttonPressed = true
+        self.startPressCount()
+    }
+    
+    @objc private func sendLongAlertSignalEndEvent() {
+        self.buttonPressed = false
+    }
+    
+    
     
     private func addViews(){
         view.addSubview(mapView)
         view.addSubview(profileButton)
         view.addSubview(logOutButton)
         view.addSubview(sendAlertButton)
+        
+        self.mapView.delegate = self
         
         profileButton.isUserInteractionEnabled = true
         logOutButton.isUserInteractionEnabled = true
@@ -85,11 +107,67 @@ class MapVC: UIViewController {
         profileButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileButtonPressed)))
         logOutButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(logOutButtonPressed)))
         sendAlertButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendAlertButtonPressed)))
+        sendAlertButton.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(sendLongAlertSignalEvent(gesture:))))
+    }
+
+    @objc private func profileButtonPressed() {
+        self.present(ProfileVC(), animated: true, completion: nil)
     }
     
-    public func sendAlertSignal() {
+    @objc private func logOutButtonPressed() {
+        FirebaseManager.logOut(onView: view)
+    }
+    
+    @objc private func sendAlertButtonPressed() {
+        self.addCircleToMap(radiusValue: self.defaultRadius)
+        self.sendAlertSignal(distance: self.defaultRadius)
+        self.resetMapCircle()
+    }
+    
+    @objc private func sendLongAlertSignalEvent(gesture: UILongPressGestureRecognizer) {
+        if gesture.state == .began { NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Notifications.sendLongAlertSignalStart))) }
+        if gesture.state == .ended { NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Notifications.sendLongAlertSignalEnd))) }
+    }
+    
+    private func startPressCount() {
+        var distance: Double = 0
         
-        ToastNotification.shared.long(view, txt_msg: "Enviando alerta...")
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { (timer) in
+            if !self.buttonPressed {
+                timer.invalidate()
+                self.resetMapCircle()
+                self.sendAlertSignal(distance: distance)
+            }
+            
+            distance += 50
+            self.addCircleToMap(radiusValue: distance)
+            
+            if distance == 1000 {
+                timer.invalidate()
+                self.resetMapCircle()
+                self.sendAlertSignal(distance: distance)
+            }
+        }
+    }
+    
+    public func sendAlertSignal(distance: Double) {
+        
+        
+        
+        
+        ToastNotification.shared.long(view, txt_msg: "Enviando alerta... \(distance)")
+    }
+    
+    private func addCircleToMap(radiusValue: Double){
+        if self.mapCircle != nil { self.mapView.removeOverlay(self.mapCircle) }
+        self.mapCircle = MKCircle(center: self.currentLocation.coordinate, radius: radiusValue as CLLocationDistance)
+        self.mapView.addOverlay(self.mapCircle)
+    }
+    
+    private func resetMapCircle() {
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { (timer) in
+            if self.mapCircle != nil { self.mapView.removeOverlay(self.mapCircle) }
+        }
     }
     
     private func setupConstraints() {
@@ -98,8 +176,8 @@ class MapVC: UIViewController {
             profileButton,
             logOutButton,
             sendAlertButton
-        ].forEach { (view) in
-            view.translatesAutoresizingMaskIntoConstraints = false
+            ].forEach { (view) in
+                view.translatesAutoresizingMaskIntoConstraints = false
         }
         
         mapView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
@@ -165,7 +243,19 @@ class MapVC: UIViewController {
         if let location = locationManager.location?.coordinate {
             let region = MKCoordinateRegion.init(center: location, latitudinalMeters: self.locationInMeters, longitudinalMeters: self.locationInMeters)
             self.mapView.setRegion(region, animated: true)
+            self.currentLocation = locationManager.location
         }
+    }
+    
+    private func setupIntents() {
+        let activity = NSUserActivity(activityType: "com.alpha-dvlpr.SafeMapp.sayHi")
+        activity.title = NSLocalizedString("safeMappAlert", comment: "")
+        activity.userInfo = ["speech" : "hi"]
+        activity.isEligibleForSearch = true
+        activity.isEligibleForPrediction = true
+        activity.persistentIdentifier = NSUserActivityPersistentIdentifier("com.alpha-dvlpr.SafeMapp.sayHi")
+        view.userActivity = activity
+        activity.becomeCurrent()
     }
     
     private func showAlert(message: String) {
@@ -177,30 +267,6 @@ class MapVC: UIViewController {
         alertController.addAction(okButton)
         
         self.present(alertController, animated: true, completion: nil)
-    }
-    
-    @objc private func profileButtonPressed() {
-        self.present(ProfileVC(), animated: true, completion: nil)
-    }
-    
-    @objc private func logOutButtonPressed() {
-        FirebaseManager.logOut(onView: view)
-    }
-    
-    @objc private func sendAlertButtonPressed() {
-        self.sendAlertSignal()
-    }
-    
-    @objc private func logoutErrorEvent() {
-        self.showAlert(message: NSLocalizedString("logoutError", comment: ""))
-    }
-    
-    @objc private func logoutSuccessEvent() {
-        self.present(LoginVC(), animated: true, completion: nil)
-    }
-    
-    @objc private func sendAlertSignalEvent() {
-        self.sendAlertSignal()
     }
 }
 
@@ -214,5 +280,19 @@ extension MapVC: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         self.checkLocationAuthorization()
+    }
+}
+
+extension MapVC: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if overlay is MKCircle {
+            let circle = MKCircleRenderer(overlay: overlay)
+            circle.strokeColor = UIColor.red
+            circle.fillColor = UIColor(red: 255/255, green: 0/255, blue: 0/255, alpha: 0.8)
+            circle.lineWidth = 1
+            return circle
+        } else {
+            return MKOverlayRenderer()
+        }
     }
 }

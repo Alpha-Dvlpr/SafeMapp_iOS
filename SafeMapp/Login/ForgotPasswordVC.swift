@@ -83,6 +83,17 @@ class ForgotPasswordVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(sendRecoveryEmailEvent), name: Notification.Name(rawValue: Notifications.sendRecoveryEmail), object: nil)
     }
     
+    @objc private func recoveryEmailErrorEvent() {
+        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("recoveryEmailError", comment: ""))
+    }
+    
+    @objc private func sendRecoveryEmailEvent() {
+        ToastNotification.shared.long(view, txt_msg: "\(NSLocalizedString("emailSent", comment: "")) '\(self.emailTextField.text!)'")
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { (timer) in
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
     private func addViews() {
         view.addSubview(backgroundImage)
         view.addSubview(logoImage)
@@ -112,6 +123,25 @@ class ForgotPasswordVC: UIViewController {
         
         sendButton.addTarget(self, action: #selector(sendEmailButtonPressed), for: .touchUpInside)
         cancelButton.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
+    }
+    
+    @objc private func sendEmailButtonPressed() {
+        guard let email = self.emailTextField.text else {
+            return
+        }
+        
+        if email == "" {
+            ToastNotification.shared.long(view, txt_msg: NSLocalizedString("emailRequired", comment: ""))
+        } else {
+            FirebaseManager.sendRecoverPasswordEmail(
+                email: email,
+                onView: view
+            )
+        }
+    }
+    
+    @objc private func cancelButtonPressed() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     private func setupConstraints() {
@@ -160,35 +190,5 @@ class ForgotPasswordVC: UIViewController {
         cancelButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24).isActive = true
         cancelButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
         cancelButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-    }
-    
-    @objc private func sendEmailButtonPressed() {
-        guard let email = self.emailTextField.text else {
-            return
-        }
-        
-        if email == "" {
-            ToastNotification.shared.long(view, txt_msg: NSLocalizedString("emailRequired", comment: ""))
-        } else {
-            FirebaseManager.sendRecoverPasswordEmail(
-                email: email,
-                onView: view
-            )
-        }
-    }
-    
-    @objc private func cancelButtonPressed() {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    @objc private func recoveryEmailErrorEvent() {
-        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("recoveryEmailError", comment: ""))
-    }
- 
-    @objc private func sendRecoveryEmailEvent() {
-        ToastNotification.shared.long(view, txt_msg: "\(NSLocalizedString("emailSent", comment: "")) '\(self.emailTextField.text!)'")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            self.dismiss(animated: true, completion: nil)
-        }
     }
 }

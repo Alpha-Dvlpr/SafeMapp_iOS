@@ -83,6 +83,21 @@ class RegisterVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(saveDataErrorEvent), name: Notification.Name(rawValue: Notifications.saveDataError), object: nil)
     }
     
+    @objc private func registerErrorEvent() {
+        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("registerError", comment: ""))
+    }
+    
+    @objc private func registerSuccessEvent() {
+        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("registerSuccess", comment: ""))
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { (timer) in
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    @objc private func saveDataErrorEvent() {
+        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("dataSaveError", comment: ""))
+    }
+    
     private func addViews() {
         view.addSubview(backgroundImage)
         view.addSubview(logoImage)
@@ -115,6 +130,27 @@ class RegisterVC: UIViewController {
         
         createAccountButton.addTarget(self, action: #selector(createAccountButtonPressed), for: .touchUpInside)
         cancelButton.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
+    }
+    
+    @objc private func createAccountButtonPressed() {
+        guard let email = self.emailTextField.text, let password = self.passwordTextField.text, let nickname = self.usernameTextField.text else {
+            return
+        }
+        
+        if email == "" || password == "" || nickname == "" {
+            ToastNotification.shared.long(view, txt_msg: NSLocalizedString("allFieldsRequired", comment: ""))
+        }else {
+            FirebaseManager.registerNewUser(
+                email: email,
+                password: password,
+                nickname: nickname,
+                onView: view
+            )
+        }
+    }
+    
+    @objc private func cancelButtonPressed() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     private func setupConstraints() {
@@ -170,42 +206,5 @@ class RegisterVC: UIViewController {
         cancelButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24).isActive = true
         cancelButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
         cancelButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-    }
-    
-    @objc private func createAccountButtonPressed() {
-        guard let email = self.emailTextField.text, let password = self.passwordTextField.text, let nickname = self.usernameTextField.text else {
-            return
-        }
-        
-        if email == "" || password == "" || nickname == "" {
-            ToastNotification.shared.long(view, txt_msg: NSLocalizedString("allFieldsRequired", comment: ""))
-        }else {
-            FirebaseManager.registerNewUser(
-                email: email,
-                password: password,
-                nickname: nickname,
-                onView: view
-            )
-        }
-    }
-
-    @objc private func cancelButtonPressed() {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    @objc private func registerErrorEvent() {
-        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("registerError", comment: ""))
-    }
-    
-    @objc private func registerSuccessEvent() {
-        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("registerSuccess", comment: ""))
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            self.dismiss(animated: true, completion: nil)
-        }
-    }
-    
-    @objc private func saveDataErrorEvent() {
-        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("dataSaveError", comment: ""))
     }
 }

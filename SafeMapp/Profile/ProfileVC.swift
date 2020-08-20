@@ -111,6 +111,52 @@ class ProfileVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updateUserInfoSuccessEvent), name: NSNotification.Name(rawValue: Notifications.updateUserInfoSuccess), object: nil)
     }
     
+    @objc private func getUserInfoErrorEvent() {
+        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("getUserInfoError", comment: ""))
+    }
+    
+    @objc private func getUserInfoSuccessEvent(_ notification: NSNotification) {
+        if let userData = notification.userInfo as NSDictionary? {
+            if let nick = userData["nick"], let mail = userData["mail"], let photo = userData["photo"] {
+                self.usernameTextField.text = nick as? String
+                self.emailTextField.text = mail as? String
+                
+                self.originalNickname = nick as? String
+                self.newNickname = nick as? String
+                
+                if photo as! String != "none" {
+                    let url = URL(string: photo as! String)
+                    
+                    URLSession.shared.dataTask(with: url!) { (data, response, error) in
+                        if error != nil {
+                            ToastNotification.shared.long(self.view, txt_msg: NSLocalizedString("loadImageError", comment: ""))
+                            return
+                        }
+                    
+                        DispatchQueue.main.async {
+                            self.userImage.image = UIImage(data: data!)
+                        }
+                    }.resume()
+                }
+            }
+        }
+    }
+    
+    @objc private func updateUserInfoErrorEvent() {
+        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("updateUserInfoError", comment: ""))
+    }
+    
+    @objc private func updateUserInfoSuccessEvent() {
+        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("updateUserInfoSuccess", comment: ""))
+        
+        self.changesMade = false
+        self.originalNickname = self.newNickname
+        self.newImage = nil
+        self.imageChanged = false
+        
+        self.checkChanges()
+    }
+    
     private func addViews() {
         view.addSubview(backgroundImage)
         view.addSubview(logoImage)
@@ -151,6 +197,36 @@ class ProfileVC: UIViewController {
         updateProfileButton.addTarget(self, action: #selector(updateProfileButtonPressed), for: .touchUpInside)
         cancelButton.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
         usernameTextField.addTarget(self, action: #selector(nicknameChangedEvent(_:)), for: .editingChanged)
+    }
+    
+    @objc private func userImageTapped() {
+        let alert = UIAlertController(title: NSLocalizedString("changeProfileImageTitle", comment: ""), message: NSLocalizedString("changeProfileImageDescription", comment: ""), preferredStyle: .actionSheet)
+        let cameraAction = UIAlertAction(title: NSLocalizedString("camera", comment: ""), style: .default) { (action) in self.checkCameraPermission() }
+        let galleryAction = UIAlertAction(title: NSLocalizedString("gallery", comment: ""), style: .default) { (action) in self.checkGalleryPermission() }
+        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .cancel, handler: nil)
+        
+        alert.addAction(cameraAction)
+        alert.addAction(galleryAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    @objc private func updateProfileButtonPressed() {
+        FirebaseManager.uploadUserImage(
+            onView: view,
+            nickname: self.newNickname == nil ? self.originalNickname : self.newNickname,
+            image: self.newImage == nil ? nil : self.newImage
+        )
+    }
+    
+    @objc private func cancelButtonPressed() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func nicknameChangedEvent(_ textField: UITextField) {
+        self.newNickname = textField.text
+        self.checkChanges()
     }
     
     private func setupConstraints() {
@@ -294,82 +370,6 @@ class ProfileVC: UIViewController {
         alertController.addAction(okButton)
         
         self.present(alertController, animated: true, completion: nil)
-    }
-    
-    @objc private func getUserInfoErrorEvent() {
-        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("getUserInfoError", comment: ""))
-    }
-    
-    @objc private func getUserInfoSuccessEvent(_ notification: NSNotification) {
-        if let userData = notification.userInfo as NSDictionary? {
-            if let nick = userData["nick"], let mail = userData["mail"], let photo = userData["photo"] {
-                self.usernameTextField.text = nick as? String
-                self.emailTextField.text = mail as? String
-                
-                self.originalNickname = nick as? String
-                self.newNickname = nick as? String
-                
-                if photo as! String != "none" {
-                    let url = URL(string: photo as! String)
-                    
-                    URLSession.shared.dataTask(with: url!) { (data, response, error) in
-                        if error != nil {
-                            ToastNotification.shared.long(self.view, txt_msg: NSLocalizedString("loadImageError", comment: ""))
-                            return
-                        }
-                        
-                        DispatchQueue.main.async {
-                            self.userImage.image = UIImage(data: data!)
-                        }
-                    }.resume()
-                }
-            }
-        }
-    }
-    
-    @objc private func nicknameChangedEvent(_ textField: UITextField) {
-        self.newNickname = textField.text
-        self.checkChanges()
-    }
-    
-    @objc private func updateUserInfoErrorEvent() {
-        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("updateUserInfoError", comment: ""))
-    }
-    
-    @objc private func updateUserInfoSuccessEvent() {
-        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("updateUserInfoSuccess", comment: ""))
-        
-        self.changesMade = false
-        self.originalNickname = self.newNickname
-        self.newImage = nil
-        self.imageChanged = false
-        
-        self.checkChanges()
-    }
-    
-    @objc private func userImageTapped() {
-        let alert = UIAlertController(title: NSLocalizedString("changeProfileImageTitle", comment: ""), message: NSLocalizedString("changeProfileImageDescription", comment: ""), preferredStyle: .actionSheet)
-        let cameraAction = UIAlertAction(title: NSLocalizedString("camera", comment: ""), style: .default) { (action) in self.checkCameraPermission() }
-        let galleryAction = UIAlertAction(title: NSLocalizedString("gallery", comment: ""), style: .default) { (action) in self.checkGalleryPermission() }
-        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .cancel, handler: nil)
-        
-        alert.addAction(cameraAction)
-        alert.addAction(galleryAction)
-        alert.addAction(cancelAction)
-        
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    @objc private func updateProfileButtonPressed() {
-        FirebaseManager.uploadUserImage(
-            onView: view,
-            nickname: self.newNickname == nil ? self.originalNickname : self.newNickname,
-            image: self.newImage == nil ? nil : self.newImage
-        )
-    }
-    
-    @objc private func cancelButtonPressed() {
-        self.dismiss(animated: true, completion: nil)
     }
 }
 

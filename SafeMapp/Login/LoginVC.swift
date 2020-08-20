@@ -84,6 +84,19 @@ class LoginVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(saveDataError), name: Notification.Name(rawValue: Notifications.saveDataError), object: nil)
     }
     
+    @objc private func loginSuccessEvent() {
+        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("loginSuccess", comment: ""))
+        self.present(MainVC(), animated: true, completion: nil)
+    }
+    
+    @objc private func loginErrorEvent() {
+        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("loginError", comment: ""))
+    }
+    
+    @objc private func saveDataError() {
+        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("dataSaveError", comment: ""))
+    }
+    
     private func addViews() {
         view.addSubview(backgroundImage)
         view.addSubview(logoImage)
@@ -118,6 +131,32 @@ class LoginVC: UIViewController {
         
         loginButton.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
         registerButton.addTarget(self, action: #selector(registerButtonPressed), for: .touchUpInside)
+    }
+    
+    @objc private func forgottenPasswordLabelPressed() {
+        let forgotPasswordVC = ForgotPasswordVC()
+        self.present(forgotPasswordVC, animated: true, completion: nil)
+    }
+    
+    @objc private func loginButtonPressed() {
+        guard let email = self.emailTextField.text, let password = self.passwordTextField.text else {
+            return
+        }
+        
+        if (email == "" || password == "") {
+            ToastNotification.shared.long(view, txt_msg: NSLocalizedString("emailAndPasswordRequired", comment: ""))
+        } else {
+            FirebaseManager.loginUser(
+                email: email,
+                password: password,
+                onView: view
+            )
+        }
+    }
+    
+    @objc private func registerButtonPressed() {
+        let registerVC = RegisterVC()
+        self.present(registerVC, animated: true, completion: nil)
     }
     
     private func setupConstraints() {
@@ -172,44 +211,5 @@ class LoginVC: UIViewController {
         registerButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24).isActive = true
         registerButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
         registerButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-    }
-    
-    @objc private func forgottenPasswordLabelPressed() {
-        let forgotPasswordVC = ForgotPasswordVC()
-        self.present(forgotPasswordVC, animated: true, completion: nil)
-    }
-    
-    @objc private func loginButtonPressed() {
-        guard let email = self.emailTextField.text, let password = self.passwordTextField.text else {
-            return
-        }
-        
-        if (email == "" || password == "") {
-            ToastNotification.shared.long(view, txt_msg: NSLocalizedString("emailAndPasswordRequired", comment: ""))
-        } else {
-            FirebaseManager.loginUser(
-                email: email,
-                password: password,
-                onView: view
-            )
-        }
-    }
-    
-    @objc private func registerButtonPressed() {
-        let registerVC = RegisterVC()
-        self.present(registerVC, animated: true, completion: nil)
-    }
-    
-    @objc private func loginSuccessEvent() {
-        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("loginSuccess", comment: ""))
-        self.present(MainVC(), animated: true, completion: nil)
-    }
-    
-    @objc private func loginErrorEvent() {
-        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("loginError", comment: ""))
-    }
-    
-    @objc private func saveDataError() {
-        ToastNotification.shared.long(view, txt_msg: NSLocalizedString("dataSaveError", comment: ""))
     }
 }
