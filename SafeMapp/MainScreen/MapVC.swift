@@ -132,14 +132,14 @@ class MapVC: UIViewController {
     private func startPressCount() {
         var distance: Double = 0
         
-        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { (timer) in
+        Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { (timer) in
             if !self.buttonPressed {
                 timer.invalidate()
                 self.resetMapCircle()
                 self.sendAlertSignal(distance: distance)
             }
             
-            distance += 50
+            distance += 25
             self.addCircleToMap(radiusValue: distance)
             
             if distance == 1000 {
@@ -155,7 +155,8 @@ class MapVC: UIViewController {
         
         
         
-        ToastNotification.shared.long(view, txt_msg: "Enviando alerta... \(distance)")
+        
+        ToastNotification.shared.long(view, txt_msg: "Enviando alerta... Radio: \(Int(distance)) metros")
     }
     
     private func addCircleToMap(radiusValue: Double){
