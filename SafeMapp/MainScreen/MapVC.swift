@@ -38,15 +38,17 @@ class MapVC: UIViewController {
     static let shared: MapVC = MapVC()
     let locationManager: CLLocationManager = CLLocationManager()
     let locationInMeters: Double = 2500
-    let defaultRadius: Double = 1000
+    let defaultRadius: Double = 500
     var currentLocation: CLLocation!
     var mapCircle: MKCircle!
     var buttonPressed: Bool = false
+    var viewModel: RequestsVM!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
+        
         
         self.addNotificationObservers()
         self.addViews()
@@ -57,6 +59,10 @@ class MapVC: UIViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    func setupVM(viewModel: RequestsVM) {
+        self.viewModel = viewModel
     }
     
     private func addNotificationObservers() {
@@ -89,8 +95,6 @@ class MapVC: UIViewController {
     @objc private func sendLongAlertSignalEndEvent() {
         self.buttonPressed = false
     }
-    
-    
     
     private func addViews(){
         view.addSubview(mapView)
@@ -177,8 +181,8 @@ class MapVC: UIViewController {
             profileButton,
             logOutButton,
             sendAlertButton
-            ].forEach { (view) in
-                view.translatesAutoresizingMaskIntoConstraints = false
+        ].forEach { (view) in
+            view.translatesAutoresizingMaskIntoConstraints = false
         }
         
         mapView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
@@ -245,6 +249,7 @@ class MapVC: UIViewController {
             let region = MKCoordinateRegion.init(center: location, latitudinalMeters: self.locationInMeters, longitudinalMeters: self.locationInMeters)
             self.mapView.setRegion(region, animated: true)
             self.currentLocation = locationManager.location
+            FirebaseManager.updateUserLocation(longitude: location.longitude, latitude: location.latitude)
         }
     }
     
@@ -274,9 +279,12 @@ class MapVC: UIViewController {
 extension MapVC: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
+        
         let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         let region = MKCoordinateRegion.init(center: center, latitudinalMeters: self.locationInMeters, longitudinalMeters: self.locationInMeters)
         self.mapView.setRegion(region, animated: true)
+        self.currentLocation = location
+        FirebaseManager.updateUserLocation(longitude: location.coordinate.longitude, latitude: location.coordinate.latitude)
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {

@@ -146,6 +146,16 @@ class FirebaseManager {
             }
     }
     
+    static func updateUserLocation(longitude: Double, latitude: Double) {
+        let currentuser = Auth.auth().currentUser?.uid
+        let userInfo: [String: Double] = [
+            "latitude": latitude,
+            "longitude": longitude
+        ]
+        
+        databaseReference.child(usersReference).child(currentuser!).updateChildValues(userInfo)
+    }
+    
     static func uploadUserImage(onView: UIView, nickname: String, image: UIImage? = nil) {
         let currentUser = Auth.auth().currentUser?.uid
         let hud = MBProgressHUD.showAdded(to: onView, animated: true)
@@ -206,5 +216,11 @@ class FirebaseManager {
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Notifications.updateUserInfoSuccess)))
             hud.hide(animated: true)
         }
+    }
+    
+    static func getRequests() {
+        let currentUser = Auth.auth().currentUser?.uid
+        
+        //TODO: Get requests
     }
 }

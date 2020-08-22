@@ -12,6 +12,7 @@ class MainVC: UITabBarController {
     
     let mapController = MapVC()
     let requestsController = RequestsVC()
+    let viewModel = RequestsVM()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,10 +27,14 @@ class MainVC: UITabBarController {
         requestsController.tabBarItem.title = NSLocalizedString("requests", comment: "")
         requestsController.tabBarItem.image = UIImage(named: "requests")
         requestsController.tabBarItem.badgeColor = UIColor.red
+        requestsController.tabBarItem.badgeValue = "\(self.viewModel.requests.count)"
         
         viewControllers = [
             mapController,
             requestsController
         ]
+        
+        mapController.setupVM(viewModel: self.viewModel)
+        requestsController.setupVM(viewModel: self.viewModel)
     }
 }
