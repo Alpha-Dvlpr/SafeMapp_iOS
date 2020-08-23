@@ -15,6 +15,7 @@
 		932136D024DA0E1E004384F3 /* SafeMappUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932136CF24DA0E1E004384F3 /* SafeMappUITests.swift */; };
 		932136E024DA1295004384F3 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932136DF24DA1295004384F3 /* LoginVC.swift */; };
 		9323731D24F28BE700304374 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9323731C24F28BE700304374 /* MapVC.swift */; };
+		9323732224F28E0C00304374 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9323732124F28E0C00304374 /* User.swift */; };
 		9341F9B124DC8FB000671870 /* ForgotPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341F9B024DC8FB000671870 /* ForgotPasswordVC.swift */; };
 		9341F9B324DC934D00671870 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341F9B224DC934D00671870 /* AppColors.swift */; };
 		9341F9B524DC9A4E00671870 /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341F9B424DC9A4E00671870 /* RegisterVC.swift */; };
@@ -69,6 +70,7 @@
 		932136D124DA0E1E004384F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		932136DF24DA1295004384F3 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		9323731C24F28BE700304374 /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
+		9323732124F28E0C00304374 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		9341F9B024DC8FB000671870 /* ForgotPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordVC.swift; sourceTree = "<group>"; };
 		9341F9B224DC934D00671870 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		9341F9B424DC9A4E00671870 /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
@@ -151,19 +153,13 @@
 		932136AE24DA0E1B004384F3 /* SafeMapp */ = {
 			isa = PBXGroup;
 			children = (
-				9323731F24F28C3800304374 /* Requests */,
-				9323731E24F28C0700304374 /* Map */,
+				9323732024F28D8C00304374 /* App */,
 				932136DD24DA1266004384F3 /* Login */,
+				9323731E24F28C0700304374 /* Map */,
 				932136DE24DA1276004384F3 /* MainScreen */,
 				93676E7524E83F630088032A /* Profile */,
+				9323731F24F28C3800304374 /* Requests */,
 				937E407824DB307500AE1541 /* Utils */,
-				932136B624DA0E1E004384F3 /* Assets.xcassets */,
-				932136AF24DA0E1B004384F3 /* AppDelegate.swift */,
-				932136B824DA0E1E004384F3 /* LaunchScreen.storyboard */,
-				93E2170A24EB48DC00B38997 /* SafeMapp.entitlements */,
-				93FBFFC924E5FD2A00B0739A /* Info.plist */,
-				931BD68924E9982200679ACA /* InfoPlist.strings */,
-				93F0FEDF24DCADC0003CF409 /* GoogleService-Info.plist */,
 			);
 			path = SafeMapp;
 			sourceTree = "<group>";
@@ -210,6 +206,7 @@
 			children = (
 				9361213524EC4E0E00DACCF9 /* CustomPin.swift */,
 				9323731C24F28BE700304374 /* MapVC.swift */,
+				9323732124F28E0C00304374 /* User.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -223,6 +220,21 @@
 			path = Requests;
 			sourceTree = "<group>";
 		};
+		9323732024F28D8C00304374 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				932136AF24DA0E1B004384F3 /* AppDelegate.swift */,
+				932136B624DA0E1E004384F3 /* Assets.xcassets */,
+				93F0FEDF24DCADC0003CF409 /* GoogleService-Info.plist */,
+				93FBFFC924E5FD2A00B0739A /* Info.plist */,
+				931BD68924E9982200679ACA /* InfoPlist.strings */,
+				932136B824DA0E1E004384F3 /* LaunchScreen.storyboard */,
+				937E408324DB315000AE1541 /* Localizable.strings */,
+				93E2170A24EB48DC00B38997 /* SafeMapp.entitlements */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
 		93676E7524E83F630088032A /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -234,7 +246,6 @@
 		937E407824DB307500AE1541 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				937E408324DB315000AE1541 /* Localizable.strings */,
 				9341F9B224DC934D00671870 /* AppColors.swift */,
 				937E408524DB354A00AE1541 /* Extensions.swift */,
 				93B2BE3024E33EBA00A9AD9F /* FirebaseManager.swift */,
@@ -443,6 +454,7 @@
 				93836BA524F163C800B1E205 /* MainVM.swift in Sources */,
 				93FBFFC324E5CBA500B0739A /* MainVC.swift in Sources */,
 				93B2BE3124E33EBA00A9AD9F /* FirebaseManager.swift in Sources */,
+				9323732224F28E0C00304374 /* User.swift in Sources */,
 				9341F9B324DC934D00671870 /* AppColors.swift in Sources */,
 				93F0FEE224DCB745003CF409 /* ToastNotification.swift in Sources */,
 				9361213624EC4E0E00DACCF9 /* CustomPin.swift in Sources */,
@@ -647,10 +659,10 @@
 			baseConfigurationReference = F7B9CE5FB66951BE946EEBC1 /* Pods-SafeMapp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SafeMapp/SafeMapp.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SafeMapp/App/SafeMapp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FLYLZ94A58;
-				INFOPLIST_FILE = SafeMapp/Info.plist;
+				INFOPLIST_FILE = SafeMapp/App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -667,10 +679,10 @@
 			baseConfigurationReference = B80EEA31DA67E984CF95CEB2 /* Pods-SafeMapp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SafeMapp/SafeMapp.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SafeMapp/App/SafeMapp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FLYLZ94A58;
-				INFOPLIST_FILE = SafeMapp/Info.plist;
+				INFOPLIST_FILE = SafeMapp/App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

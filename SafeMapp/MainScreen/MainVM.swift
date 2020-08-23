@@ -10,13 +10,19 @@ import Foundation
 
 class MainVM {
     var requests: [Request] = []
-    var usersNear: [String] = []
+    var usersNear: [User] = []
     
     init() {
+        self.addNotificationObservers()
         self.fetchData()
+    }
+    
+    private func addNotificationObservers() {
+        
     }
     
     func fetchData() {
         FirebaseManager.getRequests()
+        FirebaseManager.getUsers()
     }
 }

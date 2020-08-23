@@ -223,4 +223,8 @@ class FirebaseManager {
         
         //TODO: Get requests
     }
+    
+    static func getUsers() {
+        
+    }
 }
