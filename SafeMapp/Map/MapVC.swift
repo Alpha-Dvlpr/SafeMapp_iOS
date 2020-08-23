@@ -24,7 +24,6 @@ class MapVC: UIViewController {
     let logOutButton: UIButton = {
         let view = UIButton()
         view.setImage(UIImage(named: "logout"), for: .normal)
-        
         view.backgroundColor = AppColors.greenColor
         return view
     }()
@@ -40,15 +39,15 @@ class MapVC: UIViewController {
     let locationInMeters: Double = 2500
     let defaultRadius: Double = 500
     var currentLocation: CLLocation!
+    var locationToChange: CLLocation!
     var mapCircle: MKCircle!
     var buttonPressed: Bool = false
-    var viewModel: RequestsVM!
+    var viewModel: MainVM!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        
         
         self.addNotificationObservers()
         self.addViews()
@@ -61,7 +60,7 @@ class MapVC: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
-    func setupVM(viewModel: RequestsVM) {
+    func setupVM(viewModel: MainVM) {
         self.viewModel = viewModel
     }
     
@@ -249,6 +248,7 @@ class MapVC: UIViewController {
             let region = MKCoordinateRegion.init(center: location, latitudinalMeters: self.locationInMeters, longitudinalMeters: self.locationInMeters)
             self.mapView.setRegion(region, animated: true)
             self.currentLocation = locationManager.location
+            self.locationToChange = locationManager.location
             FirebaseManager.updateUserLocation(longitude: location.longitude, latitude: location.latitude)
         }
     }
@@ -274,6 +274,10 @@ class MapVC: UIViewController {
         
         self.present(alertController, animated: true, completion: nil)
     }
+    
+    private func calculateDistance(l1: CLLocation, l2: CLLocation) -> Double {
+        return l1.distance(from: l2)
+    }
 }
 
 extension MapVC: CLLocationManagerDelegate {
@@ -284,7 +288,11 @@ extension MapVC: CLLocationManagerDelegate {
         let region = MKCoordinateRegion.init(center: center, latitudinalMeters: self.locationInMeters, longitudinalMeters: self.locationInMeters)
         self.mapView.setRegion(region, animated: true)
         self.currentLocation = location
-        FirebaseManager.updateUserLocation(longitude: location.coordinate.longitude, latitude: location.coordinate.latitude)
+        
+        if self.calculateDistance(l1: self.locationToChange, l2: location) >= 10 {
+            self.locationToChange = location
+            FirebaseManager.updateUserLocation(longitude: self.locationToChange.coordinate.longitude, latitude: self.locationToChange.coordinate.latitude)
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {

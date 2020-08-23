@@ -12,7 +12,7 @@ class MainVC: UITabBarController {
     
     let mapController = MapVC()
     let requestsController = RequestsVC()
-    let viewModel = RequestsVM()
+    let viewModel = MainVM()
     
     override func viewDidLoad() {
         super.viewDidLoad()

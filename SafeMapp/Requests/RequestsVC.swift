@@ -10,7 +10,7 @@ import UIKit
 
 class RequestsVC: UIViewController {
 
-    var viewModel: RequestsVM!
+    var viewModel: MainVM!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +21,7 @@ class RequestsVC: UIViewController {
         self.setupConstraints()
     }
     
-    func setupVM(viewModel: RequestsVM) {
+    func setupVM(viewModel: MainVM) {
         self.viewModel = viewModel
     }
     

@@ -14,6 +14,7 @@
 		932136C524DA0E1E004384F3 /* SafeMappTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932136C424DA0E1E004384F3 /* SafeMappTests.swift */; };
 		932136D024DA0E1E004384F3 /* SafeMappUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932136CF24DA0E1E004384F3 /* SafeMappUITests.swift */; };
 		932136E024DA1295004384F3 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932136DF24DA1295004384F3 /* LoginVC.swift */; };
+		9323731D24F28BE700304374 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9323731C24F28BE700304374 /* MapVC.swift */; };
 		9341F9B124DC8FB000671870 /* ForgotPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341F9B024DC8FB000671870 /* ForgotPasswordVC.swift */; };
 		9341F9B324DC934D00671870 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341F9B224DC934D00671870 /* AppColors.swift */; };
 		9341F9B524DC9A4E00671870 /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341F9B424DC9A4E00671870 /* RegisterVC.swift */; };
@@ -22,14 +23,13 @@
 		93676E7724E83FCF0088032A /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93676E7624E83FCF0088032A /* ProfileVC.swift */; };
 		937E408124DB315000AE1541 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 937E408324DB315000AE1541 /* Localizable.strings */; };
 		937E408624DB354A00AE1541 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937E408524DB354A00AE1541 /* Extensions.swift */; };
-		93836BA524F163C800B1E205 /* RequestsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93836BA424F163C800B1E205 /* RequestsVM.swift */; };
+		93836BA524F163C800B1E205 /* MainVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93836BA424F163C800B1E205 /* MainVM.swift */; };
 		93836BA724F1662500B1E205 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93836BA624F1662500B1E205 /* Request.swift */; };
 		93B2BE3124E33EBA00A9AD9F /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B2BE3024E33EBA00A9AD9F /* FirebaseManager.swift */; };
 		93E2170C24EB493B00B38997 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E2170B24EB493B00B38997 /* Intents.framework */; };
 		93F0FEE024DCADC0003CF409 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93F0FEDF24DCADC0003CF409 /* GoogleService-Info.plist */; };
 		93F0FEE224DCB745003CF409 /* ToastNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F0FEE124DCB745003CF409 /* ToastNotification.swift */; };
 		93FBFFC324E5CBA500B0739A /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBFFC224E5CBA500B0739A /* MainVC.swift */; };
-		93FBFFC524E5CD3900B0739A /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBFFC424E5CD3900B0739A /* MapVC.swift */; };
 		93FBFFC724E5CD5B00B0739A /* RequestsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBFFC624E5CD5B00B0739A /* RequestsVC.swift */; };
 		F329B99354C16A5E887B0C82 /* Pods_SafeMapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 730B9FBFBBF6190CE013DEC6 /* Pods_SafeMapp.framework */; };
 /* End PBXBuildFile section */
@@ -68,6 +68,7 @@
 		932136CF24DA0E1E004384F3 /* SafeMappUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeMappUITests.swift; sourceTree = "<group>"; };
 		932136D124DA0E1E004384F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		932136DF24DA1295004384F3 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		9323731C24F28BE700304374 /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		9341F9B024DC8FB000671870 /* ForgotPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordVC.swift; sourceTree = "<group>"; };
 		9341F9B224DC934D00671870 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		9341F9B424DC9A4E00671870 /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
@@ -76,7 +77,7 @@
 		93676E7624E83FCF0088032A /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		937E408424DB315700AE1541 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		937E408524DB354A00AE1541 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		93836BA424F163C800B1E205 /* RequestsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsVM.swift; sourceTree = "<group>"; };
+		93836BA424F163C800B1E205 /* MainVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVM.swift; sourceTree = "<group>"; };
 		93836BA624F1662500B1E205 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		93B2BE3024E33EBA00A9AD9F /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		93E2170A24EB48DC00B38997 /* SafeMapp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SafeMapp.entitlements; sourceTree = "<group>"; };
@@ -84,7 +85,6 @@
 		93F0FEDF24DCADC0003CF409 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		93F0FEE124DCB745003CF409 /* ToastNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastNotification.swift; sourceTree = "<group>"; };
 		93FBFFC224E5CBA500B0739A /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
-		93FBFFC424E5CD3900B0739A /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		93FBFFC624E5CD5B00B0739A /* RequestsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsVC.swift; sourceTree = "<group>"; };
 		B80EEA31DA67E984CF95CEB2 /* Pods-SafeMapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SafeMapp.release.xcconfig"; path = "Target Support Files/Pods-SafeMapp/Pods-SafeMapp.release.xcconfig"; sourceTree = "<group>"; };
 		F7B9CE5FB66951BE946EEBC1 /* Pods-SafeMapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SafeMapp.debug.xcconfig"; path = "Target Support Files/Pods-SafeMapp/Pods-SafeMapp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -151,6 +151,8 @@
 		932136AE24DA0E1B004384F3 /* SafeMapp */ = {
 			isa = PBXGroup;
 			children = (
+				9323731F24F28C3800304374 /* Requests */,
+				9323731E24F28C0700304374 /* Map */,
 				932136DD24DA1266004384F3 /* Login */,
 				932136DE24DA1276004384F3 /* MainScreen */,
 				93676E7524E83F630088032A /* Profile */,
@@ -187,8 +189,8 @@
 		932136DD24DA1266004384F3 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				932136DF24DA1295004384F3 /* LoginVC.swift */,
 				9341F9B024DC8FB000671870 /* ForgotPasswordVC.swift */,
+				932136DF24DA1295004384F3 /* LoginVC.swift */,
 				9341F9B424DC9A4E00671870 /* RegisterVC.swift */,
 			);
 			path = Login;
@@ -198,11 +200,27 @@
 			isa = PBXGroup;
 			children = (
 				93FBFFC224E5CBA500B0739A /* MainVC.swift */,
-				93FBFFC424E5CD3900B0739A /* MapVC.swift */,
-				93FBFFC624E5CD5B00B0739A /* RequestsVC.swift */,
-				93836BA424F163C800B1E205 /* RequestsVM.swift */,
+				93836BA424F163C800B1E205 /* MainVM.swift */,
 			);
 			path = MainScreen;
+			sourceTree = "<group>";
+		};
+		9323731E24F28C0700304374 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				9361213524EC4E0E00DACCF9 /* CustomPin.swift */,
+				9323731C24F28BE700304374 /* MapVC.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		9323731F24F28C3800304374 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				93836BA624F1662500B1E205 /* Request.swift */,
+				93FBFFC624E5CD5B00B0739A /* RequestsVC.swift */,
+			);
+			path = Requests;
 			sourceTree = "<group>";
 		};
 		93676E7524E83F630088032A /* Profile */ = {
@@ -217,13 +235,11 @@
 			isa = PBXGroup;
 			children = (
 				937E408324DB315000AE1541 /* Localizable.strings */,
-				937E408524DB354A00AE1541 /* Extensions.swift */,
 				9341F9B224DC934D00671870 /* AppColors.swift */,
-				93F0FEE124DCB745003CF409 /* ToastNotification.swift */,
+				937E408524DB354A00AE1541 /* Extensions.swift */,
 				93B2BE3024E33EBA00A9AD9F /* FirebaseManager.swift */,
 				9356466324E4815000B9B210 /* Notifications.swift */,
-				9361213524EC4E0E00DACCF9 /* CustomPin.swift */,
-				93836BA624F1662500B1E205 /* Request.swift */,
+				93F0FEE124DCB745003CF409 /* ToastNotification.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -422,10 +438,9 @@
 			files = (
 				9356466424E4815000B9B210 /* Notifications.swift in Sources */,
 				93836BA724F1662500B1E205 /* Request.swift in Sources */,
-				93FBFFC524E5CD3900B0739A /* MapVC.swift in Sources */,
 				932136B024DA0E1B004384F3 /* AppDelegate.swift in Sources */,
 				932136E024DA1295004384F3 /* LoginVC.swift in Sources */,
-				93836BA524F163C800B1E205 /* RequestsVM.swift in Sources */,
+				93836BA524F163C800B1E205 /* MainVM.swift in Sources */,
 				93FBFFC324E5CBA500B0739A /* MainVC.swift in Sources */,
 				93B2BE3124E33EBA00A9AD9F /* FirebaseManager.swift in Sources */,
 				9341F9B324DC934D00671870 /* AppColors.swift in Sources */,
@@ -434,6 +449,7 @@
 				93676E7724E83FCF0088032A /* ProfileVC.swift in Sources */,
 				9341F9B524DC9A4E00671870 /* RegisterVC.swift in Sources */,
 				93FBFFC724E5CD5B00B0739A /* RequestsVC.swift in Sources */,
+				9323731D24F28BE700304374 /* MapVC.swift in Sources */,
 				937E408624DB354A00AE1541 /* Extensions.swift in Sources */,
 				9341F9B124DC8FB000671870 /* ForgotPasswordVC.swift in Sources */,
 			);

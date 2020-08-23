@@ -1,5 +1,5 @@
 //
-//  RequestsVM.swift
+//  MainVM.swift
 //  SafeMapp
 //
 //  Created by Aarón on 22/8/20.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class RequestsVM {
+class MainVM {
     var requests: [Request] = []
     var usersNear: [String] = []
     
