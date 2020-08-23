@@ -75,15 +75,31 @@ class MapVC: UIViewController {
     @objc private func logoutErrorEvent() {
         self.showAlert(message: NSLocalizedString("logoutError", comment: ""))
     }
-    
+
     @objc private func logoutSuccessEvent() {
         self.present(LoginVC(), animated: true, completion: nil)
     }
     
     @objc private func sendAlertSignalEvent() {
-        self.addCircleToMap(radiusValue: self.defaultRadius)
-        self.sendAlertSignal(distance: self.defaultRadius)
-        self.resetMapCircle()
+        var retryCount: Int = 3
+        
+        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { (timer) in
+            if self.viewModel.usersFetched {
+                timer.invalidate()
+                
+                self.addCircleToMap(radiusValue: self.defaultRadius)
+                self.sendAlertSignal(distance: self.defaultRadius)
+                self.resetMapCircle()
+            }
+            
+            if retryCount == 0 {
+                timer.invalidate()
+                ToastNotification.shared.long(self.view, txt_msg: "No se han podido obtener los usuarios, inténtalo en unos segundos")
+            }
+            
+            ToastNotification.shared.short(self.view, txt_msg: "Obteniendo usuarios cerca, reintentando...")
+            retryCount -= 1
+        }
     }
     
     @objc private func sendLongAlertSignalStartEvent() {
@@ -166,6 +182,8 @@ class MapVC: UIViewController {
                 nearUsers.append(user)
             }
         }
+        
+        
         
         ToastNotification.shared.long(view, txt_msg: "Enviando alerta... (\(nearUsers.count)) Radio: \(Int(distance)) metros")
     }

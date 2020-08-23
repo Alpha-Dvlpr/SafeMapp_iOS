@@ -15,6 +15,7 @@ class MainVM {
     var allUsers: [User] = []
     var userLocation: CLLocation!
     let maxDistance: Double = 1000
+    var usersFetched: Bool = false
     
     init() {
         self.addNotificationObservers()
@@ -66,6 +67,10 @@ class MainVM {
                     self.nearUsers.append(user)
                 }
             }
+            
+            self.usersFetched = true
+        } else {
+            self.usersFetched = false
         }
         
         NotificationCenter.default.post(Notification(name: Notification.Name(Notifications.usersFiltered)))
