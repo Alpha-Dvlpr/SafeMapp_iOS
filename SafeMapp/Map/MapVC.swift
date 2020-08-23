@@ -154,9 +154,9 @@ class MapVC: UIViewController {
     }
     
     public func sendAlertSignal(distance: Double) {
-        
-        
-        
+        //TODO: Enviar alerta
+        //TODO: Cambiar imagen del botón
+        //TODO: Configurar notificaciones
         
         
         ToastNotification.shared.long(view, txt_msg: "Enviando alerta... Radio: \(Int(distance)) metros")
