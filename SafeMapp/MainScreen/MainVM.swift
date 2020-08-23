@@ -68,6 +68,7 @@ class MainVM {
             self.requestsFetched = false
         }
         
+        //TODO: Filter requests, only last 30 minutes
         NotificationCenter.default.post(Notification(name: Notification.Name(Notifications.requestsUpdated)))
     }
     
