@@ -25,4 +25,12 @@ class Notifications {
     static let sendAlertSignal = "com.alphadvlpr.send_alert_signal"
     static let sendLongAlertSignalStart = "com.alphadvlpr.send_long_alert_signal_start"
     static let sendLongAlertSignalEnd = "com.alphadvlpr.send_long_alert_signal_end"
+    
+    
+    static let getRequestsSuccess = "com.alphadvlpr.get_requests_success"
+    
+    static let userDidSetupLocation = "com.alphadvlpr.user_did_setup_location"
+    static let userDidChangeLocation = "com.alphadvlpr.user_did_change_location"
+    static let getUsersSuccess = "com.alphadvlpr.get_users_success"
+    static let usersFiltered = "com.alphadvlpr.users_filtered"
 }

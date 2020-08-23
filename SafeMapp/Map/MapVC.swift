@@ -157,9 +157,17 @@ class MapVC: UIViewController {
         //TODO: Enviar alerta
         //TODO: Cambiar imagen del botón
         //TODO: Configurar notificaciones
+        var nearUsers: [User] = []
         
+        for user in self.viewModel.nearUsers {
+            let ul: CLLocation = CLLocation(latitude: user.latitude, longitude: user.longitude)
+            
+            if self.currentLocation.distance(from: ul) <= distance {
+                nearUsers.append(user)
+            }
+        }
         
-        ToastNotification.shared.long(view, txt_msg: "Enviando alerta... Radio: \(Int(distance)) metros")
+        ToastNotification.shared.long(view, txt_msg: "Enviando alerta... (\(nearUsers.count)) Radio: \(Int(distance)) metros")
     }
     
     private func addCircleToMap(radiusValue: Double){
@@ -249,6 +257,13 @@ class MapVC: UIViewController {
             self.mapView.setRegion(region, animated: true)
             self.currentLocation = locationManager.location
             self.locationToChange = locationManager.location
+            
+            NotificationCenter.default.post(
+                name: Notification.Name(rawValue: Notifications.userDidSetupLocation),
+                object: nil,
+                userInfo: [ "location": locationManager.location! ]
+            )
+            
             FirebaseManager.updateUserLocation(longitude: location.longitude, latitude: location.latitude)
         }
     }
@@ -291,6 +306,13 @@ extension MapVC: CLLocationManagerDelegate {
         
         if self.calculateDistance(l1: self.locationToChange, l2: location) >= 10 {
             self.locationToChange = location
+            
+            NotificationCenter.default.post(
+                name: Notification.Name(rawValue: Notifications.userDidChangeLocation),
+                object: nil,
+                userInfo: ["location": location]
+            )
+            
             FirebaseManager.updateUserLocation(longitude: self.locationToChange.coordinate.longitude, latitude: self.locationToChange.coordinate.latitude)
         }
     }

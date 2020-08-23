@@ -225,6 +225,36 @@ class FirebaseManager {
     }
     
     static func getUsers() {
+        let currentUserId = Auth.auth().currentUser?.uid
         
+        databaseReference.child(usersReference).observe(.value, with: { (snapshot) in
+            let value = snapshot.value as? NSDictionary
+            var users: [User] = []
+            
+            for val in (value?.allValues)! {
+                let aux = val as! NSDictionary
+                let userId = aux["userId"] as? String ?? "none"
+                
+                if userId != currentUserId {
+                    let user = User(
+                        name: aux["userName"] as? String ?? "none",
+                        email: aux["email"] as? String ?? "none",
+                        latitude: aux["latitude"] as? Double ?? 0,
+                        longitude: aux["longitude"] as? Double ?? 0,
+                        id: userId
+                    )
+                    
+                    users.append(user)
+                }
+            }
+            
+            let info: [String: [User]] = [ "users": users ]
+            
+            NotificationCenter.default.post(
+                name: NSNotification.Name(Notifications.getUsersSuccess),
+                object: nil,
+                userInfo: info
+            )
+        })
     }
 }

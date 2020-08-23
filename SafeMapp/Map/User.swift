@@ -8,6 +8,18 @@
 
 import Foundation
 
-struct User {
+class User: NSObject {
+    var userName: String
+    var email: String
+    var latitude: Double
+    var longitude: Double
+    var userId: String
     
+    init(name: String, email: String, latitude: Double, longitude: Double, id: String) {
+        self.userName = name
+        self.email = email
+        self.latitude = latitude
+        self.longitude = longitude
+        self.userId = id
+    }
 }

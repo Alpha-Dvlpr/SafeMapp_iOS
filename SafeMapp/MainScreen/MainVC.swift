@@ -17,16 +17,28 @@ class MainVC: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.addNotificationObservers()
         self.setupPages()
+    }
+    
+    private func addNotificationObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(setupBadgeValues), name: NSNotification.Name(Notifications.usersFiltered), object: nil)
+    }
+    
+    @objc private func setupBadgeValues() {
+        mapController.tabBarItem.badgeValue = "\(self.viewModel.nearUsers.count)"
+        requestsController.tabBarItem.badgeValue = "\(self.viewModel.requests.count)"
     }
     
     private func setupPages() {
         mapController.tabBarItem.title = NSLocalizedString("home", comment: "")
         mapController.tabBarItem.image = UIImage(named: "home")
+        mapController.tabBarItem.badgeColor = AppColors.redColor
+        mapController.tabBarItem.badgeValue = "\(self.viewModel.nearUsers.count)"
         
         requestsController.tabBarItem.title = NSLocalizedString("requests", comment: "")
         requestsController.tabBarItem.image = UIImage(named: "requests")
-        requestsController.tabBarItem.badgeColor = UIColor.red
+        requestsController.tabBarItem.badgeColor = AppColors.redColor
         requestsController.tabBarItem.badgeValue = "\(self.viewModel.requests.count)"
         
         viewControllers = [
