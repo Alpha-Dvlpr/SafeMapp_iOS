@@ -23,6 +23,7 @@ class MainVC: UITabBarController {
     
     private func addNotificationObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(setupBadgeValues), name: NSNotification.Name(Notifications.usersFiltered), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setupBadgeValues), name: NSNotification.Name(Notifications.requestsUpdated), object: nil)
     }
     
     @objc private func setupBadgeValues() {

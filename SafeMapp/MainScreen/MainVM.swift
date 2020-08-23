@@ -16,6 +16,7 @@ class MainVM {
     var userLocation: CLLocation!
     let maxDistance: Double = 1000
     var usersFetched: Bool = false
+    var requestsFetched: Bool = false
     
     init() {
         self.addNotificationObservers()
@@ -26,6 +27,7 @@ class MainVM {
         NotificationCenter.default.addObserver(self, selector: #selector(userDidSetupLocation(_:)), name: Notification.Name(rawValue: Notifications.userDidSetupLocation), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(userDidSetupLocation(_:)), name: NSNotification.Name(rawValue: Notifications.userDidChangeLocation), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(getUsersSuccessEvent(_:)), name: Notification.Name(rawValue: Notifications.getUsersSuccess), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(getRequestsSuccess(_:)), name: NSNotification.Name(rawValue: Notifications.getRequestsSuccess), object: nil)
     }
     
     @objc private func userDidSetupLocation(_ notification: NSNotification) {
@@ -54,6 +56,19 @@ class MainVM {
                 self.getNearUsers()
             }
         }
+    }
+    
+    @objc private func getRequestsSuccess(_ notification: NSNotification) {
+        if let info = notification.userInfo {
+            if let requests: [Request] = info["requests"] as? [Request] {
+                self.requests = requests
+                self.requestsFetched = true
+            }
+        } else {
+            self.requestsFetched = false
+        }
+        
+        NotificationCenter.default.post(Notification(name: Notification.Name(Notifications.requestsUpdated)))
     }
     
     private func getNearUsers() {

@@ -8,15 +8,27 @@
 
 import Foundation
 
-struct Request {
+class Request: NSObject {
     var userName: String
-    var latitude: String
-    var longitude: String
+    var latitude: Double
+    var longitude: Double
     var email: String
     var status: String
     var timestamp: CLong
     var userId: String
     var image: String
     var requestId: String
-    var distance: Double
+    
+    init(userName: String, latitude: Double, longitude: Double, email: String, status: String,
+         timestamp: CLong, userId: String, image: String, requestId: String) {
+        self.userName = userName
+        self.latitude = latitude
+        self.longitude = longitude
+        self.email = email
+        self.status = status
+        self.timestamp = timestamp
+        self.userId = userId
+        self.image = image
+        self.requestId = requestId
+    }
 }

@@ -28,6 +28,7 @@
 		93836BA724F1662500B1E205 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93836BA624F1662500B1E205 /* Request.swift */; };
 		93B2BE3124E33EBA00A9AD9F /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B2BE3024E33EBA00A9AD9F /* FirebaseManager.swift */; };
 		93E2170C24EB493B00B38997 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E2170B24EB493B00B38997 /* Intents.framework */; };
+		93E5B84524F2EC9700C635E7 /* RequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E5B84424F2EC9700C635E7 /* RequestCell.swift */; };
 		93F0FEE024DCADC0003CF409 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93F0FEDF24DCADC0003CF409 /* GoogleService-Info.plist */; };
 		93F0FEE224DCB745003CF409 /* ToastNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F0FEE124DCB745003CF409 /* ToastNotification.swift */; };
 		93FBFFC324E5CBA500B0739A /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBFFC224E5CBA500B0739A /* MainVC.swift */; };
@@ -84,6 +85,7 @@
 		93B2BE3024E33EBA00A9AD9F /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		93E2170A24EB48DC00B38997 /* SafeMapp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SafeMapp.entitlements; sourceTree = "<group>"; };
 		93E2170B24EB493B00B38997 /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		93E5B84424F2EC9700C635E7 /* RequestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestCell.swift; sourceTree = "<group>"; };
 		93F0FEDF24DCADC0003CF409 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		93F0FEE124DCB745003CF409 /* ToastNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastNotification.swift; sourceTree = "<group>"; };
 		93FBFFC224E5CBA500B0739A /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				93836BA624F1662500B1E205 /* Request.swift */,
+				93E5B84424F2EC9700C635E7 /* RequestCell.swift */,
 				93FBFFC624E5CD5B00B0739A /* RequestsVC.swift */,
 			);
 			path = Requests;
@@ -448,6 +451,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9356466424E4815000B9B210 /* Notifications.swift in Sources */,
+				93E5B84524F2EC9700C635E7 /* RequestCell.swift in Sources */,
 				93836BA724F1662500B1E205 /* Request.swift in Sources */,
 				932136B024DA0E1B004384F3 /* AppDelegate.swift in Sources */,
 				932136E024DA1295004384F3 /* LoginVC.swift in Sources */,

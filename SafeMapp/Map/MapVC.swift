@@ -94,10 +94,10 @@ class MapVC: UIViewController {
             
             if retryCount == 0 {
                 timer.invalidate()
-                ToastNotification.shared.long(self.view, txt_msg: "No se han podido obtener los usuarios, inténtalo en unos segundos")
+                ToastNotification.shared.long(self.view, txt_msg: NSLocalizedString("couldNotGetNearbyUsersRetry", comment: ""))
             }
             
-            ToastNotification.shared.short(self.view, txt_msg: "Obteniendo usuarios cerca, reintentando...")
+            ToastNotification.shared.short(self.view, txt_msg: NSLocalizedString("gettingNearbyUsersRetrying", comment: ""))
             retryCount -= 1
         }
     }
@@ -183,9 +183,14 @@ class MapVC: UIViewController {
             }
         }
         
-        
-        
-        ToastNotification.shared.long(view, txt_msg: "Enviando alerta... (\(nearUsers.count)) Radio: \(Int(distance)) metros")
+        if nearUsers.count == 0 {
+            ToastNotification.shared.long(view, txt_msg: NSLocalizedString("noUsersNearbyIncrease", comment: ""))
+        } else {
+            
+            
+            
+            ToastNotification.shared.long(view, txt_msg: "\(NSLocalizedString("sendingAlert", comment: "")) (\(nearUsers.count)). \(Int(distance)) \(NSLocalizedString("meters", comment: ""))")
+        }
     }
     
     private func addCircleToMap(radiusValue: Double){
