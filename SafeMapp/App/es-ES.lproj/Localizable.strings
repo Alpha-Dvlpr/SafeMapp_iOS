@@ -47,3 +47,6 @@ gettingNearbyUsersRetrying = "Obteniendo usuarios cerca, reintentando...";
 noUsersNearbyIncrease = "No hay usuarios cerca de su ubicación. Pruebe a aumentar el radio de acción";
 sendingAlert = "Enviando alerta...";
 meters = "metros";
+localeCode = "es_ES";
+dateFormat = "dd/MM/yyyy - HH:mm";
+updatingRequests = "Actualizando solicitudes...";

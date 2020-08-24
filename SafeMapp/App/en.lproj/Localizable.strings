@@ -47,3 +47,6 @@ gettingNearbyUsersRetrying = "Getting users nearby, retrying...";
 noUsersNearbyIncrease = "There are no users nearby. Please try to increase the action radius";
 sendingAlert = "Sending alert...";
 meters = "meters";
+localeCode = "en_GB";
+dateFormat = "dd MMMM yyyy - hh:mm a";
+updatingRequests = "Updating requests...";

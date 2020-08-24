@@ -43,6 +43,7 @@ class MainVM {
     @objc private func userDidChangeLocationEvent(_ notification: NSNotification) {
         if let info = notification.userInfo {
             if let location: CLLocation = info["location"] as? CLLocation {
+                self.allUsers.removeAll()
                 self.userLocation = location
                 self.getNearUsers()
             }
@@ -52,6 +53,7 @@ class MainVM {
     @objc private func getUsersSuccessEvent(_ notification: NSNotification) {
         if let info = notification.userInfo {
             if let users: [User] = info["users"] as? [User] {
+                self.allUsers.removeAll()
                 self.allUsers = users
                 self.getNearUsers()
             }
@@ -61,15 +63,14 @@ class MainVM {
     @objc private func getRequestsSuccess(_ notification: NSNotification) {
         if let info = notification.userInfo {
             if let requests: [Request] = info["requests"] as? [Request] {
+                self.requests.removeAll()
                 self.requests = requests
                 self.requestsFetched = true
+                self.getLastRequests()
             }
         } else {
             self.requestsFetched = false
         }
-        
-        //TODO: Filter requests, only last 30 minutes
-        NotificationCenter.default.post(Notification(name: Notification.Name(Notifications.requestsUpdated)))
     }
     
     private func getNearUsers() {
@@ -90,5 +91,22 @@ class MainVM {
         }
         
         NotificationCenter.default.post(Notification(name: Notification.Name(Notifications.usersFiltered)))
+    }
+    
+    func getLastRequests() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.calendar = Calendar(identifier: .iso8601)
+        dateFormatter.locale = Locale(identifier: NSLocalizedString("localeCode", comment: ""))
+        dateFormatter.timeZone = TimeZone(identifier: NSLocalizedString("localeCode", comment: ""))
+        dateFormatter.dateFormat = NSLocalizedString("dateFormat", comment: "")
+        
+        let currentDate = dateFormatter.date(from: dateFormatter.string(from: Date()))
+        
+        self.requests = self.requests.filter({
+            currentDate! <  dateFormatter.date(from: dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval($0.timestamp / 1000))))!.addingTimeInterval(3600)
+        })
+        self.requests = self.requests.sorted(by: { $0.timestamp > $1.timestamp })
+        
+        NotificationCenter.default.post(Notification(name: Notification.Name(Notifications.requestsUpdated)))
     }
 }

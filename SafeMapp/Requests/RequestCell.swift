@@ -88,8 +88,26 @@ class RequestCell: UITableViewCell {
         didSet {
             nameValueLabel.text = request.userName
             emailValueLabel.text = request.email
-            dateValueLabel.text = "\(Date(timeIntervalSinceNow: TimeInterval(request!.timestamp)))"
-            //TODO: Fix date and load image
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.calendar = Calendar(identifier: .iso8601)
+            dateFormatter.locale = Locale(identifier: NSLocalizedString("localeCode", comment: ""))
+            dateFormatter.timeZone = TimeZone(identifier: NSLocalizedString("localeCode", comment: "")) //TODO: Get current time zone, do not user from localized
+            dateFormatter.dateFormat = NSLocalizedString("dateFormat", comment: "")
+            
+            let readableDate: String = dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(request!.timestamp / 1000)))
+            
+            dateValueLabel.text = "\(readableDate)"
+            
+            if request.image != "none" {
+                let url = URL(string: request.image)
+                
+                URLSession.shared.dataTask(with: url!) { (data, response, error) in
+                    if error != nil { return }
+                    
+                    DispatchQueue.main.async { self.userImage.image = UIImage(data: data!) }
+                }.resume()
+            }
         }
     }
     
@@ -189,12 +207,10 @@ class RequestCell: UITableViewCell {
     
     @objc private func acceptButtonTapped() {
         callback?(true)
-        print("henlo")
     }
     
     @objc private func ignoreButtonTapped() {
         callback?(false)
-        print("bye")
     }
     
     required init?(coder aDecoder: NSCoder) {

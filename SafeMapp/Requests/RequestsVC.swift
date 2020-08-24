@@ -11,6 +11,7 @@ import UIKit
 class RequestsVC: UIViewController {
 
     var table = UITableView()
+    let refreshControl = UIRefreshControl()
     
     var viewModel: MainVM!
     
@@ -43,11 +44,23 @@ class RequestsVC: UIViewController {
     private func addViews() {
         view.addSubview(table)
         
+        refreshControl.tintColor = AppColors.greenColor
+        refreshControl.attributedTitle = NSAttributedString(string: NSLocalizedString("updatingRequests", comment: ""), attributes: [:])
+        
         table.delegate = self
         table.dataSource = self
         table.tableFooterView = UIView()
+        table.addSubview(refreshControl)
         
         table.register(RequestCell.self, forCellReuseIdentifier: "requestCell")
+        
+        refreshControl.addTarget(self, action: #selector(swipeRefresh(_:)), for: .valueChanged)
+    }
+    
+    @objc private func swipeRefresh(_ sender: Any) {
+        self.viewModel.getLastRequests()
+        self.table.reloadData()
+        self.refreshControl.endRefreshing()
     }
     
     private func setupConstraints() {
