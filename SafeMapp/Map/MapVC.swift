@@ -117,6 +117,7 @@ class MapVC: UIViewController {
         if let info = notification.userInfo {
             if let row: Int = info["index"] as? Int {
                 if self.viewModel.requests.isEmpty {
+                    //TODO: Translate alerts
                     ToastNotification.shared.long(self.view, txt_msg: "No hay solicitudes disponibles")
                 } else {
                     if row > (self.viewModel.requests.count - 1) {
