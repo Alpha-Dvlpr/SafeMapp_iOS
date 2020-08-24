@@ -40,6 +40,7 @@ class MapVC: UIViewController {
     let defaultRadius: Double = 500
     var currentLocation: CLLocation!
     var locationToChange: CLLocation!
+    var directionsArray: [MKDirections] = []
     var mapCircle: MKCircle!
     var buttonPressed: Bool = false
     var viewModel: MainVM!
@@ -70,6 +71,7 @@ class MapVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(sendAlertSignalEvent), name: Notification.Name(rawValue: Notifications.sendAlertSignal), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(sendLongAlertSignalStartEvent), name: Notification.Name(rawValue: Notifications.sendLongAlertSignalStart), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(sendLongAlertSignalEndEvent), name: Notification.Name(rawValue: Notifications.sendLongAlertSignalEnd), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(requestAccepted(_:)), name: NSNotification.Name(rawValue: Notifications.requestAccepted), object: nil)
     }
     
     @objc private func logoutErrorEvent() {
@@ -109,6 +111,63 @@ class MapVC: UIViewController {
     
     @objc private func sendLongAlertSignalEndEvent() {
         self.buttonPressed = false
+    }
+    
+    @objc private func requestAccepted(_ notification: NSNotification) {
+        if let info = notification.userInfo {
+            if let row: Int = info["index"] as? Int {
+                if self.viewModel.requests.isEmpty {
+                    ToastNotification.shared.long(self.view, txt_msg: "No hay solicitudes disponibles")
+                } else {
+                    if row > (self.viewModel.requests.count - 1) {
+                        ToastNotification.shared.long(self.view, txt_msg: "Error al obtener la ruta")
+                    } else {
+                        let request = self.viewModel.requests[row]
+                        let coordinate = CLLocation(latitude: request.latitude, longitude: request.longitude)
+                        
+                        let mapRequest = self.createLocationMapRequest(from: coordinate.coordinate)
+                        let mapDirections = MKDirections(request: mapRequest)
+                        self.resetMapViews(with: mapDirections)
+                        
+                        mapDirections.calculate { [unowned self] (response, error) in
+                            if error != nil {
+                                ToastNotification.shared.long(self.view, txt_msg: (error?.localizedDescription)!)
+                                return
+                            }
+                            
+                            guard let response = response else { return }
+                            
+                            for route in response.routes {
+                                self.mapView.addOverlay(route.polyline)
+                                self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
+                            }
+                            
+                            //TODO: delete from viewmodel and update firebase database
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func createLocationMapRequest(from coordinate: CLLocationCoordinate2D) -> MKDirections.Request {
+        let destinationCoordinate = coordinate
+        let startingLocation = MKPlacemark(coordinate: self.currentLocation.coordinate)
+        let destination = MKPlacemark(coordinate: destinationCoordinate)
+        let request = MKDirections.Request()
+        
+        request.source = MKMapItem(placemark: startingLocation)
+        request.destination = MKMapItem(placemark: destination)
+        request.transportType = .walking
+        request.requestsAlternateRoutes = false
+        
+        return request
+    }
+    
+    private func resetMapViews(with newDirections: MKDirections) {
+        self.mapView.removeOverlays(self.mapView.overlays)
+        directionsArray.append(newDirections)
+        let _ = directionsArray.map{ $0.cancel() }
     }
     
     private func addViews(){
@@ -260,7 +319,7 @@ class MapVC: UIViewController {
             break
         case .authorizedWhenInUse:
             self.mapView.showsUserLocation = true
-            self.centerUserLocation()
+            self.centerUserLocation(distance: self.locationInMeters)
             self.locationManager.startUpdatingLocation()
             break
         case .notDetermined:
@@ -274,9 +333,9 @@ class MapVC: UIViewController {
         }
     }
     
-    private func centerUserLocation() {
+    private func centerUserLocation(distance: Double) {
         if let location = locationManager.location?.coordinate {
-            let region = MKCoordinateRegion.init(center: location, latitudinalMeters: self.locationInMeters, longitudinalMeters: self.locationInMeters)
+            let region = MKCoordinateRegion.init(center: location, latitudinalMeters: distance, longitudinalMeters: distance)
             self.mapView.setRegion(region, animated: true)
             self.currentLocation = locationManager.location
             self.locationToChange = locationManager.location
@@ -347,13 +406,18 @@ extension MapVC: CLLocationManagerDelegate {
 
 extension MapVC: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        if overlay is MKCircle {
+        switch overlay {
+        case is MKCircle:
             let circle = MKCircleRenderer(overlay: overlay)
             circle.strokeColor = UIColor.red
             circle.fillColor = UIColor(red: 255/255, green: 0/255, blue: 0/255, alpha: 0.8)
             circle.lineWidth = 1
             return circle
-        } else {
+        case is MKPolyline:
+            let renderer = MKPolylineRenderer(overlay: overlay)
+            renderer.strokeColor = AppColors.redColor
+            return renderer
+        default:
             return MKOverlayRenderer()
         }
     }

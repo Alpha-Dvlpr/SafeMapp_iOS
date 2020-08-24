@@ -73,7 +73,12 @@ class RequestsVC: UIViewController {
     }
     
     private func acceptRequest(row: Int) {
-        print("RVC | accepting request \(row)") //TODO: Setup callbacks
+        tabBarController?.selectedIndex = 0
+        NotificationCenter.default.post(
+            name: NSNotification.Name(rawValue: Notifications.requestAccepted),
+            object: nil,
+            userInfo: ["index" : row]
+        )
     }
     
     private func ignoreRequest(row: Int) {

@@ -103,7 +103,7 @@ class MainVM {
         let currentDate = dateFormatter.date(from: dateFormatter.string(from: Date()))
         
         self.requests = self.requests.filter({
-            currentDate! <  dateFormatter.date(from: dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval($0.timestamp / 1000))))!.addingTimeInterval(3600)
+            currentDate! <  dateFormatter.date(from: dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval($0.timestamp / 1000))))!.addingTimeInterval(1800)
         })
         self.requests = self.requests.sorted(by: { $0.timestamp > $1.timestamp })
         

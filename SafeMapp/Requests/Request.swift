@@ -19,11 +19,11 @@ class Request: NSObject {
     var image: String
     var requestId: String
     
-    init(userName: String, latitude: Double, longitude: Double, email: String, status: String,
+    init(userName: String, latitude: String, longitude: String, email: String, status: String,
          timestamp: CLong, userId: String, image: String, requestId: String) {
         self.userName = userName
-        self.latitude = latitude
-        self.longitude = longitude
+        self.latitude = Double(latitude) ?? 0
+        self.longitude = Double(longitude) ?? 0
         self.email = email
         self.status = status
         self.timestamp = timestamp

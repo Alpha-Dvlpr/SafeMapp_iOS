@@ -31,4 +31,5 @@ class Notifications {
     static let usersFiltered = "com.alphadvlpr.users_filtered"
     static let getRequestsSuccess = "com.alphadvlpr.get_requests_success"
     static let requestsUpdated = "com.alphadvlpr.requests_updated"
+    static let requestAccepted = "com.aplhadvlpr.request_accepted"
 }

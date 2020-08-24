@@ -99,12 +99,14 @@ class RequestCell: UITableViewCell {
             
             dateValueLabel.text = "\(readableDate)"
             
-            if request.image != "none" {
-                let url = URL(string: request.image)
-                
+            guard let image: String = request.image else { return }
+            
+            if image != "" {
+                let url = URL(string: image)
+
                 URLSession.shared.dataTask(with: url!) { (data, response, error) in
                     if error != nil { return }
-                    
+
                     DispatchQueue.main.async { self.userImage.image = UIImage(data: data!) }
                 }.resume()
             }

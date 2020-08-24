@@ -229,8 +229,8 @@ class FirebaseManager {
                 let aux = val as! NSDictionary
                 let request = Request(
                     userName: aux["userName"] as? String ?? "none",
-                    latitude: aux["latitude"] as? Double ?? 0,
-                    longitude: aux["longitude"] as? Double ?? 0,
+                    latitude: aux["latitude"] as? String ?? "none",
+                    longitude: aux["longitude"] as? String ?? "none",
                     email: aux["email"] as? String ?? "none",
                     status: aux["status"] as? String ?? "none",
                     timestamp: aux["timestamp"] as? Int ?? 0,
