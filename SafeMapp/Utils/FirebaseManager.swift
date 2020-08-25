@@ -10,6 +10,7 @@ import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
 import MBProgressHUD
+import FirebaseMessaging
 
 class FirebaseManager {
     private static let databaseReference = Database.database().reference(fromURL: "https://safemapp-8c432.firebaseio.com/")
@@ -81,12 +82,10 @@ class FirebaseManager {
             }
             
             let currentUser = Auth.auth().currentUser?.uid
-            let tokenId = "" //TODO: Configure cloud messaging
-            let userInfo = [
-                "token_id": tokenId
-            ]
+            let tokenId = Messaging.messaging().fcmToken
+            let userInfo = [ "token_id": tokenId ]
             
-            databaseReference.child(usersReference).child(currentUser!).updateChildValues(userInfo, withCompletionBlock: { (databaseError, reference) in
+            databaseReference.child(usersReference).child(currentUser!).updateChildValues(userInfo as [AnyHashable : Any], withCompletionBlock: { (databaseError, reference) in
                 if databaseError != nil {
                     NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Notifications.saveDataError)))
                     hud.hide(animated: true)

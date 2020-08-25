@@ -50,3 +50,5 @@ meters = "metros";
 localeCode = "es_ES";
 dateFormat = "dd/MM/yyyy - HH:mm";
 updatingRequests = "Actualizando solicitudes...";
+noRequests = "No hay solicitudes disponibles";
+errorGettingRoute = "Error al obtener la ruta";

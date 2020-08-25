@@ -117,11 +117,10 @@ class MapVC: UIViewController {
         if let info = notification.userInfo {
             if let row: Int = info["index"] as? Int {
                 if self.viewModel.requests.isEmpty {
-                    //TODO: Translate alerts
-                    ToastNotification.shared.long(self.view, txt_msg: "No hay solicitudes disponibles")
+                    ToastNotification.shared.long(self.view, txt_msg: NSLocalizedString("noRequests", comment: ""))
                 } else {
                     if row > (self.viewModel.requests.count - 1) {
-                        ToastNotification.shared.long(self.view, txt_msg: "Error al obtener la ruta")
+                        ToastNotification.shared.long(self.view, txt_msg: NSLocalizedString("errorGettingRoute", comment: ""))
                     } else {
                         let request = self.viewModel.requests[row]
                         let coordinate = CLLocation(latitude: request.latitude, longitude: request.longitude)

@@ -50,3 +50,5 @@ meters = "meters";
 localeCode = "en_GB";
 dateFormat = "dd MMMM yyyy - hh:mm a";
 updatingRequests = "Updating requests...";
+noRequests = "There are no available requests";
+errorGettingRoute = "Error getting route";
