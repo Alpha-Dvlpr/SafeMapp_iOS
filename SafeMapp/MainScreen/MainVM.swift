@@ -13,6 +13,7 @@ class MainVM {
     var requests: [Request] = []
     var nearUsers: [User] = []
     var allUsers: [User] = []
+    var mySelf: User!
     var userLocation: CLLocation!
     let maxDistance: Double = 1000
     var usersFetched: Bool = false
@@ -20,6 +21,7 @@ class MainVM {
     
     init() {
         self.addNotificationObservers()
+        FirebaseManager.getMyself()
         FirebaseManager.getRequests()
     }
     
@@ -28,6 +30,7 @@ class MainVM {
         NotificationCenter.default.addObserver(self, selector: #selector(userDidSetupLocation(_:)), name: NSNotification.Name(rawValue: Notifications.userDidChangeLocation), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(getUsersSuccessEvent(_:)), name: Notification.Name(rawValue: Notifications.getUsersSuccess), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(getRequestsSuccess(_:)), name: NSNotification.Name(rawValue: Notifications.getRequestsSuccess), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(getMyself(_:)), name: NSNotification.Name(rawValue: Notifications.getMyself), object: nil)
     }
     
     @objc private func userDidSetupLocation(_ notification: NSNotification) {
@@ -70,6 +73,14 @@ class MainVM {
             }
         } else {
             self.requestsFetched = false
+        }
+    }
+    
+    @objc private func getMyself(_ notification: NSNotification) {
+        if let info = notification.userInfo {
+            if let myself: User = info["myself"] as? User {
+                self.mySelf = myself
+            }
         }
     }
     

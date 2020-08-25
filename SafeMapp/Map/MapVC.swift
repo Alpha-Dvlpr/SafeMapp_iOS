@@ -245,8 +245,9 @@ class MapVC: UIViewController {
         if nearUsers.count == 0 {
             ToastNotification.shared.long(view, txt_msg: NSLocalizedString("noUsersNearbyIncrease", comment: ""))
         } else {
+            let nearUsers = self.viewModel.nearUsers.filter({ self.currentLocation.distance(from: CLLocation(latitude: $0.latitude, longitude: $0.longitude)) <= distance })
             
-            
+            FirebaseManager.sendNotification(users: nearUsers, myself: self.viewModel.mySelf)
             
             ToastNotification.shared.long(view, txt_msg: "\(NSLocalizedString("sendingAlert", comment: "")) (\(nearUsers.count)). \(Int(distance)) \(NSLocalizedString("meters", comment: ""))")
         }

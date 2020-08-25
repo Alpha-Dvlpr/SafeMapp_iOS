@@ -98,6 +98,34 @@ class FirebaseManager {
         }
     }
     
+    static func getMyself() {
+        let currentUser = Auth.auth().currentUser?.uid
+        
+        databaseReference.child(usersReference).child(currentUser!).observeSingleEvent(
+            of: .value,
+            with: { (snapshot) in
+                let value = snapshot.value as? NSDictionary
+                
+                let mySelf = User(
+                    name: value?["userName"] as? String ?? "none",
+                    email: value?["email"] as? String ?? "none",
+                    latitude: value?["latitude"] as? Double ?? 0,
+                    longitude: value?["longitude"] as? Double ?? 0,
+                    id: value?["userId"] as? String ?? "none",
+                    image: value?["image"] as? String ?? "none"
+                )
+                
+                let info: [String: User] = [ "myself": mySelf ]
+                
+                NotificationCenter.default.post(
+                    name: NSNotification.Name(rawValue: Notifications.getMyself),
+                    object: nil,
+                    userInfo: info
+                )
+            }
+        ) { (error) in }
+    }
+    
     static func getAuth() -> Bool {
         return Auth.auth().currentUser != nil
     }
@@ -268,7 +296,8 @@ class FirebaseManager {
                         email: aux["email"] as? String ?? "none",
                         latitude: aux["latitude"] as? Double ?? 0,
                         longitude: aux["longitude"] as? Double ?? 0,
-                        id: userId
+                        id: userId,
+                        image: aux["image"] as? String ?? "none"
                     )
                     
                     users.append(user)
@@ -283,5 +312,34 @@ class FirebaseManager {
                 userInfo: info
             )
         })
+    }
+    
+    static func sendNotification(users: [User], myself: User) {
+        for user in users {
+            let notificationValue = [
+                "notification" : "\(user.userName) tiene problemas",
+                "userId" : user.userId
+            ]
+            databaseReference.child(notificationsReference).child(user.userId).setValue(notificationValue)
+
+            //TODO: Fix this
+            
+//            let childRef = databaseReference.child(requestsReference).child(user.userId).childByAutoId()
+//            let requestValue: Dictionary<String, Any> = [
+//                "userName": myself.userName,
+//                "latitude": myself.latitude,
+//                "longitude": myself.longitude,
+//                "email": myself.email,
+//                "status": "pending",
+//                "timestamp": ServerValue.timestamp(),
+//                "userId": myself.userId,
+//                "image": myself.image,
+//                "requestId": childRef
+//            ]
+//
+//            print("childref: \(childRef)")
+//
+//            childRef.setValue(requestValue)
+        }
     }
 }
