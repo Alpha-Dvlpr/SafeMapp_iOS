@@ -15,13 +15,15 @@ class User: NSObject {
     var longitude: Double
     var userId: String
     var image: String
+    var token: String
     
-    init(name: String, email: String, latitude: Double, longitude: Double, id: String, image: String) {
+    init(name: String, email: String, latitude: Double, longitude: Double, id: String, image: String, token: String) {
         self.userName = name
         self.email = email
         self.latitude = latitude
         self.longitude = longitude
         self.userId = id
         self.image = image
+        self.token = token
     }
 }

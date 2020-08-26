@@ -29,7 +29,8 @@
 		93B2BE3124E33EBA00A9AD9F /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B2BE3024E33EBA00A9AD9F /* FirebaseManager.swift */; };
 		93E2170C24EB493B00B38997 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E2170B24EB493B00B38997 /* Intents.framework */; };
 		93E5B84524F2EC9700C635E7 /* RequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E5B84424F2EC9700C635E7 /* RequestCell.swift */; };
-		93F0FEE024DCADC0003CF409 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93F0FEDF24DCADC0003CF409 /* GoogleService-Info.plist */; };
+		93EA483F24F7096A00D70603 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93EA483E24F7096A00D70603 /* GoogleService-Info.plist */; };
+		93EA484124F71B4D00D70603 /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EA484024F71B4D00D70603 /* PushNotificationSender.swift */; };
 		93F0FEE224DCB745003CF409 /* ToastNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F0FEE124DCB745003CF409 /* ToastNotification.swift */; };
 		93FBFFC324E5CBA500B0739A /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBFFC224E5CBA500B0739A /* MainVC.swift */; };
 		93FBFFC724E5CD5B00B0739A /* RequestsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBFFC624E5CD5B00B0739A /* RequestsVC.swift */; };
@@ -86,7 +87,8 @@
 		93E2170A24EB48DC00B38997 /* SafeMapp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SafeMapp.entitlements; sourceTree = "<group>"; };
 		93E2170B24EB493B00B38997 /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		93E5B84424F2EC9700C635E7 /* RequestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestCell.swift; sourceTree = "<group>"; };
-		93F0FEDF24DCADC0003CF409 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		93EA483E24F7096A00D70603 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		93EA484024F71B4D00D70603 /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
 		93F0FEE124DCB745003CF409 /* ToastNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastNotification.swift; sourceTree = "<group>"; };
 		93FBFFC224E5CBA500B0739A /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		93FBFFC624E5CD5B00B0739A /* RequestsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsVC.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 		932136AE24DA0E1B004384F3 /* SafeMapp */ = {
 			isa = PBXGroup;
 			children = (
+				93EA483E24F7096A00D70603 /* GoogleService-Info.plist */,
 				9323732024F28D8C00304374 /* App */,
 				932136DD24DA1266004384F3 /* Login */,
 				9323731E24F28C0700304374 /* Map */,
@@ -228,7 +231,6 @@
 			children = (
 				932136AF24DA0E1B004384F3 /* AppDelegate.swift */,
 				932136B624DA0E1E004384F3 /* Assets.xcassets */,
-				93F0FEDF24DCADC0003CF409 /* GoogleService-Info.plist */,
 				93FBFFC924E5FD2A00B0739A /* Info.plist */,
 				931BD68924E9982200679ACA /* InfoPlist.strings */,
 				932136B824DA0E1E004384F3 /* LaunchScreen.storyboard */,
@@ -254,6 +256,7 @@
 				93B2BE3024E33EBA00A9AD9F /* FirebaseManager.swift */,
 				9356466324E4815000B9B210 /* Notifications.swift */,
 				93F0FEE124DCB745003CF409 /* ToastNotification.swift */,
+				93EA484024F71B4D00D70603 /* PushNotificationSender.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -386,8 +389,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				932136BA24DA0E1E004384F3 /* LaunchScreen.storyboard in Resources */,
-				93F0FEE024DCADC0003CF409 /* GoogleService-Info.plist in Resources */,
 				937E408124DB315000AE1541 /* Localizable.strings in Resources */,
+				93EA483F24F7096A00D70603 /* GoogleService-Info.plist in Resources */,
 				932136B724DA0E1E004384F3 /* Assets.xcassets in Resources */,
 				931BD68724E9982200679ACA /* InfoPlist.strings in Resources */,
 			);
@@ -461,6 +464,7 @@
 				93836BA724F1662500B1E205 /* Request.swift in Sources */,
 				932136B024DA0E1B004384F3 /* AppDelegate.swift in Sources */,
 				932136E024DA1295004384F3 /* LoginVC.swift in Sources */,
+				93EA484124F71B4D00D70603 /* PushNotificationSender.swift in Sources */,
 				93836BA524F163C800B1E205 /* MainVM.swift in Sources */,
 				93FBFFC324E5CBA500B0739A /* MainVC.swift in Sources */,
 				93B2BE3124E33EBA00A9AD9F /* FirebaseManager.swift in Sources */,

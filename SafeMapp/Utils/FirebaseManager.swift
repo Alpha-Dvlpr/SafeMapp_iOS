@@ -112,7 +112,8 @@ class FirebaseManager {
                     latitude: value?["latitude"] as? Double ?? 0,
                     longitude: value?["longitude"] as? Double ?? 0,
                     id: value?["userId"] as? String ?? "none",
-                    image: value?["image"] as? String ?? "none"
+                    image: value?["image"] as? String ?? "none",
+                    token: value?["token_id"] as? String ?? "none"
                 )
                 
                 let info: [String: User] = [ "myself": mySelf ]
@@ -297,7 +298,8 @@ class FirebaseManager {
                         latitude: aux["latitude"] as? Double ?? 0,
                         longitude: aux["longitude"] as? Double ?? 0,
                         id: userId,
-                        image: aux["image"] as? String ?? "none"
+                        image: aux["image"] as? String ?? "none",
+                        token: aux["token_id"] as? String ?? "none"
                     )
                     
                     users.append(user)
@@ -315,31 +317,39 @@ class FirebaseManager {
     }
     
     static func sendNotification(users: [User], myself: User) {
+        print("myself token: \(myself.token)")
+        
         for user in users {
             let notificationValue = [
                 "notification" : "\(user.userName) tiene problemas",
                 "userId" : user.userId
             ]
             databaseReference.child(notificationsReference).child(user.userId).setValue(notificationValue)
-
-            //TODO: Fix this
             
-//            let childRef = databaseReference.child(requestsReference).child(user.userId).childByAutoId()
-//            let requestValue: Dictionary<String, Any> = [
-//                "userName": myself.userName,
-//                "latitude": myself.latitude,
-//                "longitude": myself.longitude,
-//                "email": myself.email,
-//                "status": "pending",
-//                "timestamp": ServerValue.timestamp(),
-//                "userId": myself.userId,
-//                "image": myself.image,
-//                "requestId": childRef
-//            ]
-//
-//            print("childref: \(childRef)")
-//
-//            childRef.setValue(requestValue)
+            let childRef = databaseReference.child(requestsReference).child(user.userId).childByAutoId().key
+            let requestValue = [
+                "userName": myself.userName,
+                "latitude": myself.latitude,
+                "longitude": myself.longitude,
+                "email": myself.email,
+                "status": "pending",
+                "timestamp": ServerValue.timestamp(),
+                "userId": myself.userId,
+                "image": myself.image,
+                "requestId": childRef!
+            ] as [String: Any]
+            databaseReference.child(requestsReference).child(user.userId).child(childRef!).setValue(requestValue)
+    
+            print("token: \(user.token)")
+            
+            if user.token != "none" {
+                let sender = PushNotificationSender()
+                sender.sendPushNotification(
+                    to: user.token,
+                    title: "Alguien está en peligro",
+                    body: "\(myself.userName) está en serios problemas (Fede si lo ves lo he conseguido)"
+                )
+            }
         }
     }
 }
