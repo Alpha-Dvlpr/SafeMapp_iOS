@@ -342,6 +342,8 @@ class FirebaseManager {
     
             print("token: \(user.token)")
             
+            //TODO: Translate all this messages
+            
             if user.token != "none" {
                 let sender = PushNotificationSender()
                 sender.sendPushNotification(
