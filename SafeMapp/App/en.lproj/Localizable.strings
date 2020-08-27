@@ -52,3 +52,6 @@ dateFormat = "dd MMMM yyyy - hh:mm a";
 updatingRequests = "Updating requests...";
 noRequests = "There are no available requests";
 errorGettingRoute = "Error getting route";
+somebodyIsInTrouble = "Somebody is in trouble";
+somebodyIsInTroubleShort = " is in trouble";
+onTheWay = " is on its way";

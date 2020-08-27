@@ -321,10 +321,12 @@ class FirebaseManager {
         
         for user in users {
             let notificationValue = [
-                "notification" : "\(user.userName) tiene problemas",
+                "notification" : "\(user.userName) \(NSLocalizedString("somebodyIsInTroubleShort", comment: ""))",
                 "userId" : user.userId
             ]
             databaseReference.child(notificationsReference).child(user.userId).setValue(notificationValue)
+            
+            //TODO: Delete above this when android version is fixed
             
             let childRef = databaseReference.child(requestsReference).child(user.userId).childByAutoId().key
             let requestValue = [
@@ -342,16 +344,36 @@ class FirebaseManager {
     
             print("token: \(user.token)")
             
-            //TODO: Translate all this messages
-            
             if user.token != "none" {
                 let sender = PushNotificationSender()
                 sender.sendPushNotification(
                     to: user.token,
-                    title: "Alguien está en peligro",
-                    body: "\(myself.userName) está en serios problemas (Fede si lo ves lo he conseguido)"
+                    title: NSLocalizedString("somebodyIsInTrouble", comment: ""),
+                    body: "\(myself.userName) \(NSLocalizedString("somebodyIsInTroubleShort", comment: ""))"
                 )
             }
+        }
+    }
+    
+    static func ignoreRequest(request: Request) {
+        let currentUser = Auth.auth().currentUser?.uid
+        let values: [String: String] = [ "status" : "ignored" ]
+        
+        databaseReference.child(requestsReference).child(currentUser!).child(request.requestId).updateChildValues(values)
+    }
+    
+    static func acceptRequest(request: Request, user: User, myself: User) {
+        let currentUser = Auth.auth().currentUser?.uid
+        let values: [String: String] = [ "status" : "accepter" ]
+        
+        databaseReference.child(requestsReference).child(currentUser!).child(request.requestId).updateChildValues(values)
+        
+        if user.token != "none" {
+            let sender = PushNotificationSender()
+            sender.sendPushNotification(
+                to: user.token,
+                title: "Solicitud aceptada",
+                body: "\(myself.userName) \(NSLocalizedString("onTheWay", comment: ""))")
         }
     }
 }

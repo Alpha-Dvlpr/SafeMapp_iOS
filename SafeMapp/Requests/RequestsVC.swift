@@ -82,7 +82,8 @@ class RequestsVC: UIViewController {
     }
     
     private func ignoreRequest(row: Int) {
-        print("RVC | ignoring request. deleting... \(row)") //TODO: Setup callbacks
+        FirebaseManager.ignoreRequest(request: self.viewModel.requests[row])
+        self.viewModel.requests.remove(at: row)
     }
 }
 

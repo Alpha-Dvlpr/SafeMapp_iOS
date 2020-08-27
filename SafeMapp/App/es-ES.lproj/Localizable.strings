@@ -52,3 +52,6 @@ dateFormat = "dd/MM/yyyy - HH:mm";
 updatingRequests = "Actualizando solicitudes...";
 noRequests = "No hay solicitudes disponibles";
 errorGettingRoute = "Error al obtener la ruta";
+somebodyIsInTrouble = "Alguien está en apuros";
+somebodyIsInTroubleShort = " está en apuros";
+onTheWay = " está en camino";

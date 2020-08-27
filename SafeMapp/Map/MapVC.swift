@@ -30,13 +30,13 @@ class MapVC: UIViewController {
     
     let sendAlertButton: UIButton = {
         let view = UIButton()
-        view.backgroundColor = AppColors.redColor
+        view.setImage(UIImage(named: "button"), for: .normal)
         return view
     }()
     
     static let shared: MapVC = MapVC()
     let locationManager: CLLocationManager = CLLocationManager()
-    let locationInMeters: Double = 2500
+    let locationInMeters: Double = 1000
     let defaultRadius: Double = 500
     var currentLocation: CLLocation!
     var locationToChange: CLLocation!
@@ -142,7 +142,13 @@ class MapVC: UIViewController {
                                 self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
                             }
                             
-                            //TODO: delete from viewmodel and update firebase database
+                            let location = CLLocationCoordinate2D(latitude: request.latitude, longitude: request.longitude)
+                            let pin = CustomPin(title: request.userName, subtitle: request.email, coordinate: location)
+                            self.mapView.addAnnotation(pin)
+                            
+                            let requestUser: User = self.viewModel.allUsers.first(where: { $0.userId == request.userId })!
+                            FirebaseManager.acceptRequest(request: request, user: requestUser, myself: self.viewModel.mySelf)
+                            self.viewModel.requests.remove(at: row)
                         }
                     }
                 }
@@ -229,9 +235,6 @@ class MapVC: UIViewController {
     }
     
     public func sendAlertSignal(distance: Double) {
-        //TODO: Enviar alerta
-        //TODO: Cambiar imagen del botón
-        //TODO: Configurar notificaciones
         var nearUsers: [User] = []
         
         for user in self.viewModel.nearUsers {
@@ -294,9 +297,9 @@ class MapVC: UIViewController {
         
         sendAlertButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -32).isActive = true
         sendAlertButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor, constant: 0).isActive = true
-        sendAlertButton.widthAnchor.constraint(equalToConstant: 64).isActive = true
-        sendAlertButton.heightAnchor.constraint(equalToConstant: 64).isActive = true
-        sendAlertButton.layer.cornerRadius = 32
+        sendAlertButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        sendAlertButton.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        sendAlertButton.layer.cornerRadius = 40
     }
     
     private func checkLocationServices() {
@@ -421,5 +424,12 @@ extension MapVC: MKMapViewDelegate {
         default:
             return MKOverlayRenderer()
         }
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "reuseId")
+        annotationView.canShowCallout = true
+        annotationView.image = UIImage(named: "greenPin")
+        return annotationView
     }
 }
