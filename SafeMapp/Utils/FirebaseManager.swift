@@ -253,21 +253,23 @@ class FirebaseManager {
             let value = snapshot.value as? NSDictionary
             var requests: [Request] = []
             
-            for val in (value?.allValues)! {
-                let aux = val as! NSDictionary
-                let request = Request(
-                    userName: aux["userName"] as? String ?? "none",
-                    latitude: aux["latitude"] as? String ?? "none",
-                    longitude: aux["longitude"] as? String ?? "none",
-                    email: aux["email"] as? String ?? "none",
-                    status: aux["status"] as? String ?? "none",
-                    timestamp: aux["timestamp"] as? Int ?? 0,
-                    userId: aux["userId"] as? String ?? "none",
-                    image: aux["image"] as? String ?? "none",
-                    requestId: aux["requestId"] as? String ?? "none"
-                )
-                
-                requests.append(request)
+            if value != nil {
+                for val in (value?.allValues)! {
+                    let aux = val as! NSDictionary
+                    let request = Request(
+                        userName: aux["userName"] as? String ?? "none",
+                        latitude: aux["latitude"] as? String ?? "none",
+                        longitude: aux["longitude"] as? String ?? "none",
+                        email: aux["email"] as? String ?? "none",
+                        status: aux["status"] as? String ?? "none",
+                        timestamp: aux["timestamp"] as? Int ?? 0,
+                        userId: aux["userId"] as? String ?? "none",
+                        image: aux["image"] as? String ?? "none",
+                        requestId: aux["requestId"] as? String ?? "none"
+                    )
+                    
+                    requests.append(request)
+                }
             }
             
             let info: [String: [Request]] = ["requests": requests]
@@ -287,22 +289,24 @@ class FirebaseManager {
             let value = snapshot.value as? NSDictionary
             var users: [User] = []
             
-            for val in (value?.allValues)! {
-                let aux = val as! NSDictionary
-                let userId = aux["userId"] as? String ?? "none"
-                
-                if userId != currentUserId {
-                    let user = User(
-                        name: aux["userName"] as? String ?? "none",
-                        email: aux["email"] as? String ?? "none",
-                        latitude: aux["latitude"] as? Double ?? 0,
-                        longitude: aux["longitude"] as? Double ?? 0,
-                        id: userId,
-                        image: aux["image"] as? String ?? "none",
-                        token: aux["token_id"] as? String ?? "none"
-                    )
+            if value != nil {
+                for val in (value?.allValues)! {
+                    let aux = val as! NSDictionary
+                    let userId = aux["userId"] as? String ?? "none"
                     
-                    users.append(user)
+                    if userId != currentUserId {
+                        let user = User(
+                            name: aux["userName"] as? String ?? "none",
+                            email: aux["email"] as? String ?? "none",
+                            latitude: aux["latitude"] as? Double ?? 0,
+                            longitude: aux["longitude"] as? Double ?? 0,
+                            id: userId,
+                            image: aux["image"] as? String ?? "none",
+                            token: aux["token_id"] as? String ?? "none"
+                        )
+                        
+                        users.append(user)
+                    }
                 }
             }
             

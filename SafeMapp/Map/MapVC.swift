@@ -390,6 +390,8 @@ extension MapVC: CLLocationManagerDelegate {
         self.mapView.setRegion(region, animated: true)
         self.currentLocation = location
         
+        if self.locationToChange == nil { self.locationToChange = location }
+        
         if self.calculateDistance(l1: self.locationToChange, l2: location) >= 10 {
             self.locationToChange = location
             
