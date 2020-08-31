@@ -33,4 +33,5 @@ class Notifications {
     static let requestsUpdated = "com.alphadvlpr.requests_updated"
     static let requestAccepted = "com.aplhadvlpr.request_accepted"
     static let getMyself = "com.alphadvlpr.get_myself"
+    static let locationEnabled = "com.alphadvlpr.location_enabled"
 }

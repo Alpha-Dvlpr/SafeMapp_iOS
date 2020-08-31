@@ -21,8 +21,6 @@ class MainVM {
     
     init() {
         self.addNotificationObservers()
-        FirebaseManager.getMyself()
-        FirebaseManager.getRequests()
     }
     
     private func addNotificationObservers() {
@@ -31,6 +29,7 @@ class MainVM {
         NotificationCenter.default.addObserver(self, selector: #selector(getUsersSuccessEvent(_:)), name: Notification.Name(rawValue: Notifications.getUsersSuccess), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(getRequestsSuccess(_:)), name: NSNotification.Name(rawValue: Notifications.getRequestsSuccess), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(getMyself(_:)), name: NSNotification.Name(rawValue: Notifications.getMyself), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(locationEnabledEvent), name: NSNotification.Name(rawValue: Notifications.locationEnabled), object: nil)
     }
     
     @objc private func userDidSetupLocation(_ notification: NSNotification) {
@@ -82,6 +81,11 @@ class MainVM {
                 self.mySelf = myself
             }
         }
+    }
+    
+    @objc private func locationEnabledEvent() {
+        FirebaseManager.getMyself()
+        FirebaseManager.getRequests()
     }
     
     private func getNearUsers() {

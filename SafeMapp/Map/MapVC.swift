@@ -43,6 +43,7 @@ class MapVC: UIViewController {
     var directionsArray: [MKDirections] = []
     var mapCircle: MKCircle!
     var buttonPressed: Bool = false
+    var locationGranted: Bool = false
     var viewModel: MainVM!
     
     override func viewDidLoad() {
@@ -319,22 +320,34 @@ class MapVC: UIViewController {
     private func checkLocationAuthorization() {
         switch CLLocationManager.authorizationStatus() {
         case .denied:
+            self.locationGranted = false
             self.showAlert(message: NSLocalizedString("locationDenied", comment: ""))
             break
         case .authorizedWhenInUse:
+            self.locationGranted = true
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Notifications.locationEnabled)))
             self.mapView.showsUserLocation = true
             self.centerUserLocation(distance: self.locationInMeters)
             self.locationManager.startUpdatingLocation()
             break
         case .notDetermined:
+            self.locationGranted = false
             self.locationManager.requestWhenInUseAuthorization()
             break
         case .restricted:
+            self.locationGranted = false
             self.showAlert(message: NSLocalizedString("locationRestricted", comment: ""))
             break
         default:
             break
         }
+        
+        self.changeButtonStatus()
+    }
+    
+    private func changeButtonStatus() {
+        self.sendAlertButton.isEnabled = self.locationGranted
+        self.sendAlertButton.setImage(UIImage(named: self.locationGranted ? "button" : "button-disabled"), for: .normal)
     }
     
     private func centerUserLocation(distance: Double) {
@@ -367,9 +380,7 @@ class MapVC: UIViewController {
     
     private func showAlert(message: String) {
         let alertController = UIAlertController(title: NSLocalizedString("info", comment: ""), message: message, preferredStyle: .alert)
-        let okButton = UIAlertAction(title: NSLocalizedString("accept", comment: ""), style: .default) {
-            (action) in self.checkLocationServices()
-        }
+        let okButton = UIAlertAction(title: NSLocalizedString("accept", comment: ""), style: .default)
         
         alertController.addAction(okButton)
         
