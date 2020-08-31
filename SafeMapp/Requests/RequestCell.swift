@@ -92,17 +92,15 @@ class RequestCell: UITableViewCell {
             let dateFormatter = DateFormatter()
             dateFormatter.calendar = Calendar(identifier: .iso8601)
             dateFormatter.locale = Locale(identifier: NSLocalizedString("localeCode", comment: ""))
-            dateFormatter.timeZone = TimeZone(identifier: NSLocalizedString("localeCode", comment: "")) //TODO: Get current time zone, do not user from localized
+            dateFormatter.timeZone = TimeZone(identifier: NSLocalizedString("localeCode", comment: "")) //TODO: Get current time zone, do not use from localized
             dateFormatter.dateFormat = NSLocalizedString("dateFormat", comment: "")
             
             let readableDate: String = dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(request!.timestamp / 1000)))
             
             dateValueLabel.text = "\(readableDate)"
             
-            guard let image: String = request.image else { return }
-            
-            if image != "" {
-                let url = URL(string: image)
+            if request.image != "none" {
+                let url = URL(string: request.image)
 
                 URLSession.shared.dataTask(with: url!) { (data, response, error) in
                     if error != nil { return }

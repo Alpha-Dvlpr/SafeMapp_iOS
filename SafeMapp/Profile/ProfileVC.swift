@@ -322,6 +322,7 @@ class ProfileVC: UIViewController {
         case .authorized:
             self.openCamera()
             break
+        @unknown default: break
         }
     }
     
@@ -342,6 +343,7 @@ class ProfileVC: UIViewController {
         case .authorized:
             self.openGallery()
             break
+        @unknown default: break
         }
     }
     
