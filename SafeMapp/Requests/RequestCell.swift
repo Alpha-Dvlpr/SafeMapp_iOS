@@ -102,7 +102,7 @@ class RequestCell: UITableViewCell {
             
             dateValueLabel.text = "\(readableDate)"
             
-            if request.image != "none" {
+            if request.image != "" {
                 let url = URL(string: request.image)
 
                 URLSession.shared.dataTask(with: url!) { (data, response, error) in
