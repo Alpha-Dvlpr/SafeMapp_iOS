@@ -46,15 +46,23 @@ class ProfileVC: UIViewController {
     
     let usernameTextField: UITextField = {
         let view = UITextField()
-        view.placeholder = NSLocalizedString("username", comment: "")
         view.keyboardType = .default
+        view.textColor = .black
+        view.attributedPlaceholder = NSAttributedString(
+            string: NSLocalizedString("username", comment: ""),
+            attributes: [.foregroundColor: UIColor.lightGray]
+        )
         return view
     }()
     
     let emailTextField: UITextField = {
         let view = UITextField()
-        view.placeholder = NSLocalizedString("email", comment: "")
         view.keyboardType = .emailAddress
+        view.textColor = .black
+        view.attributedPlaceholder = NSAttributedString(
+            string: NSLocalizedString("email", comment: ""),
+            attributes: [.foregroundColor: UIColor.lightGray]
+        )
         return view
     }()
     
@@ -348,12 +356,14 @@ class ProfileVC: UIViewController {
     }
     
     private func openCamera() {
-        let cameraController = UIImagePickerController()
-        cameraController.sourceType = .camera
-        cameraController.allowsEditing = true
-        cameraController.delegate = self
-        
-        self.present(cameraController, animated: true)
+        DispatchQueue.main.async {
+            let cameraController = UIImagePickerController()
+            cameraController.sourceType = .camera
+            cameraController.allowsEditing = true
+            cameraController.delegate = self
+            
+            self.present(cameraController, animated: true)
+        }
     }
     
     private func openGallery() {

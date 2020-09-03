@@ -27,15 +27,12 @@ class MainVC: UITabBarController {
     }
     
     @objc private func setupBadgeValues() {
-        mapController.tabBarItem.badgeValue = "\(self.viewModel.nearUsers.count)"
         requestsController.tabBarItem.badgeValue = "\(self.viewModel.requests.count)"
     }
     
     private func setupPages() {
         mapController.tabBarItem.title = NSLocalizedString("home", comment: "")
         mapController.tabBarItem.image = UIImage(named: "home")
-        mapController.tabBarItem.badgeColor = AppColors.redColor
-        mapController.tabBarItem.badgeValue = "\(self.viewModel.nearUsers.count)"
         
         requestsController.tabBarItem.title = NSLocalizedString("requests", comment: "")
         requestsController.tabBarItem.image = UIImage(named: "requests")

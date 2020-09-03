@@ -45,24 +45,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window!.makeKeyAndVisible()
         
         let viewController = window!.rootViewController
-        viewController?.present(FirebaseManager.getAuth() ? MainVC() : LoginVC(), animated: true, completion: nil)
+        
+        let main = MainVC()
+        main.modalPresentationStyle = .fullScreen
+        let login = LoginVC()
+        login.modalPresentationStyle = .fullScreen
+        
+        viewController?.present(FirebaseManager.getAuth() ? main : login, animated: true, completion: nil)
         
         return true
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-//        if let messageID = userInfo[gcmMessageIDKey] {
-//            print("Message ID: \(messageID)")
-//        }
-        
         print(userInfo)
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-//        if let messageID = userInfo[gcmMessageIDKey] {
-//            print("Message ID: \(messageID)")
-//        }
-//        
         print(userInfo)
         
         completionHandler(UIBackgroundFetchResult.newData)

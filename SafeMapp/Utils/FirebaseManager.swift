@@ -30,14 +30,14 @@ class FirebaseManager {
                 return
             }
             
-            let currentUser = Auth.auth().currentUser?.uid
+            guard let currentUser = Auth.auth().currentUser?.uid else { return }
             let userInfo = [
                 "userName": nickname,
                 "email": email,
-                "userId": currentUser!
+                "userId": currentUser
             ]
             
-            databaseReference.child(usersReference).child(currentUser!).updateChildValues(userInfo, withCompletionBlock: { (databaseError, reference) in
+            databaseReference.child(usersReference).child(currentUser).updateChildValues(userInfo, withCompletionBlock: { (databaseError, reference) in
                 if databaseError != nil {
                     NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Notifications.saveDataError)))
                     hud.hide(animated: true)
@@ -81,11 +81,11 @@ class FirebaseManager {
                 return
             }
             
-            let currentUser = Auth.auth().currentUser?.uid
+            guard let currentUser = Auth.auth().currentUser?.uid else { return }
             let tokenId = Messaging.messaging().fcmToken
             let userInfo = [ "token_id": tokenId ]
             
-            databaseReference.child(usersReference).child(currentUser!).updateChildValues(userInfo as [AnyHashable : Any], withCompletionBlock: { (databaseError, reference) in
+            databaseReference.child(usersReference).child(currentUser).updateChildValues(userInfo as [AnyHashable : Any], withCompletionBlock: { (databaseError, reference) in
                 if databaseError != nil {
                     NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Notifications.saveDataError)))
                     hud.hide(animated: true)
@@ -99,9 +99,9 @@ class FirebaseManager {
     }
     
     static func getMyself() {
-        let currentUser = Auth.auth().currentUser?.uid
+        guard let currentUser = Auth.auth().currentUser?.uid else { return }
         
-        databaseReference.child(usersReference).child(currentUser!).observeSingleEvent(
+        databaseReference.child(usersReference).child(currentUser).observeSingleEvent(
             of: .value,
             with: { (snapshot) in
                 let value = snapshot.value as? NSDictionary
@@ -148,11 +148,11 @@ class FirebaseManager {
     }
     
     static func getUserInfo(onView: UIView) {
-        let currentUser = Auth.auth().currentUser?.uid
+        guard let currentUser = Auth.auth().currentUser?.uid else { return }
         let hud = MBProgressHUD.showAdded(to: onView, animated: true)
         hud.mode = .indeterminate
         
-        databaseReference.child(usersReference).child(currentUser!).observeSingleEvent(
+        databaseReference.child(usersReference).child(currentUser).observeSingleEvent(
             of: .value,
             with: { (snapshot) in
                 let value = snapshot.value as? NSDictionary
@@ -175,22 +175,22 @@ class FirebaseManager {
     }
     
     static func updateUserLocation(longitude: Double, latitude: Double) {
-        let currentuser = Auth.auth().currentUser?.uid
+        guard let currentuser = Auth.auth().currentUser?.uid else { return }
         let userInfo: [String: Double] = [
             "latitude": latitude,
             "longitude": longitude
         ]
         
-        databaseReference.child(usersReference).child(currentuser!).updateChildValues(userInfo)
+        databaseReference.child(usersReference).child(currentuser).updateChildValues(userInfo)
     }
     
     static func uploadUserImage(onView: UIView, nickname: String, image: UIImage? = nil) {
-        let currentUser = Auth.auth().currentUser?.uid
+        guard let currentUser = Auth.auth().currentUser?.uid else { return }
         let hud = MBProgressHUD.showAdded(to: onView, animated: true)
         hud.mode = .indeterminate
         
         if image != nil {
-            let imageReference = storageReference.child(usersReference).child("\(currentUser!).jpeg")
+            let imageReference = storageReference.child(usersReference).child("\(currentUser).jpeg")
             imageReference.putData(
                 image!.jpegData(compressionQuality: 0.8)!,
                 metadata: nil
@@ -230,11 +230,11 @@ class FirebaseManager {
     }
     
     private static func updateUserInformation(onView: UIView, userInfo: [String: String]) {
-        let currentUser = Auth.auth().currentUser?.uid
+        guard let currentUser = Auth.auth().currentUser?.uid else { return }
         let hud = MBProgressHUD.showAdded(to: onView, animated: true)
         hud.mode = .indeterminate
         
-        databaseReference.child(usersReference).child(currentUser!).updateChildValues(userInfo) { (error, reference) in
+        databaseReference.child(usersReference).child(currentUser).updateChildValues(userInfo) { (error, reference) in
             if error != nil {
                 NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Notifications.updateUserInfoError)))
                 hud.hide(animated: true)
@@ -247,9 +247,9 @@ class FirebaseManager {
     }
     
     static func getRequests() {
-        let currentUser = Auth.auth().currentUser?.uid
+        guard let currentUser = Auth.auth().currentUser?.uid else { return }
         
-        databaseReference.child(requestsReference).child(currentUser!).queryOrdered(byChild: "status").queryEqual(toValue: "pending").observe(.value) { (snapshot) in
+        databaseReference.child(requestsReference).child(currentUser).queryOrdered(byChild: "status").queryEqual(toValue: "pending").observe(.value) { (snapshot) in
             let value = snapshot.value as? NSDictionary
             var requests: [Request] = []
             
@@ -283,7 +283,7 @@ class FirebaseManager {
     }
     
     static func getUsers() {
-        let currentUserId = Auth.auth().currentUser?.uid
+        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
         
         databaseReference.child(usersReference).observe(.value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
@@ -324,14 +324,6 @@ class FirebaseManager {
         print("myself token: \(myself.token)")
         
         for user in users {
-            let notificationValue = [
-                "notification" : "\(user.userName) \(NSLocalizedString("somebodyIsInTroubleShort", comment: ""))",
-                "userId" : user.userId
-            ]
-            databaseReference.child(notificationsReference).child(user.userId).setValue(notificationValue)
-            
-            //TODO: Delete above this when android version is fixed
-            
             let childRef = databaseReference.child(requestsReference).child(user.userId).childByAutoId().key
             let requestValue = [
                 "userName": myself.userName,
@@ -360,17 +352,17 @@ class FirebaseManager {
     }
     
     static func ignoreRequest(request: Request) {
-        let currentUser = Auth.auth().currentUser?.uid
+        guard let currentUser = Auth.auth().currentUser?.uid else { return }
         let values: [String: String] = [ "status" : "ignored" ]
         
-        databaseReference.child(requestsReference).child(currentUser!).child(request.requestId).updateChildValues(values)
+        databaseReference.child(requestsReference).child(currentUser).child(request.requestId).updateChildValues(values)
     }
     
     static func acceptRequest(request: Request, user: User, myself: User) {
-        let currentUser = Auth.auth().currentUser?.uid
+        guard let currentUser = Auth.auth().currentUser?.uid else { return }
         let values: [String: String] = [ "status" : "accepter" ]
         
-        databaseReference.child(requestsReference).child(currentUser!).child(request.requestId).updateChildValues(values)
+        databaseReference.child(requestsReference).child(currentUser).child(request.requestId).updateChildValues(values)
         
         if user.token != "none" {
             let sender = PushNotificationSender()

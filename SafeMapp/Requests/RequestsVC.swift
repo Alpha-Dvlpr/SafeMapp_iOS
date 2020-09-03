@@ -47,6 +47,7 @@ class RequestsVC: UIViewController {
         refreshControl.tintColor = AppColors.greenColor
         refreshControl.attributedTitle = NSAttributedString(string: NSLocalizedString("updatingRequests", comment: ""), attributes: [:])
         
+        table.backgroundColor = .white
         table.delegate = self
         table.dataSource = self
         table.tableFooterView = UIView()

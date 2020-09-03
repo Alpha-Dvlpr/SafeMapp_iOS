@@ -30,8 +30,12 @@ class ForgotPasswordVC: UIViewController {
     
     let emailTextField: UITextField = {
         let view = UITextField()
-        view.placeholder = NSLocalizedString("email", comment: "")
         view.keyboardType = .emailAddress
+        view.textColor = .black
+        view.attributedPlaceholder = NSAttributedString(
+            string: NSLocalizedString("email", comment: ""),
+            attributes: [.foregroundColor: UIColor.lightGray]
+        )
         return view
     }()
     
@@ -51,16 +55,11 @@ class ForgotPasswordVC: UIViewController {
     
     let infoLabel: UILabel = {
         let view = UILabel()
-        let rawText: String = NSLocalizedString("resetPasswordInfo", comment: "")
-        let firstColoredText: String = NSLocalizedString("send", comment: "")
-        let secondColoredText: String = NSLocalizedString("email", comment: "")
-        let coloredText: NSAttributedString = rawText.attributedStringWithColor([firstColoredText, secondColoredText], color: AppColors.greenColor)
-        
-        view.attributedText = coloredText
         view.textAlignment = .left
         view.numberOfLines = 4
+        view.text = NSLocalizedString("resetPasswordInfo", comment: "")
+        view.textColor = .black
         view.font = .systemFont(ofSize: 12)
-    
         return view
     }()
     

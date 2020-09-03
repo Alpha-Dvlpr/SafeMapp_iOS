@@ -36,50 +36,53 @@ class RequestCell: UITableViewCell {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Nombre"
+        label.text = NSLocalizedString("name", comment: "")
+        label.textColor = .black
         return label
     }()
     
     let nameValueLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
+        label.textColor = .black
         return label
     }()
     
     let emailLabel: UILabel = {
         let label = UILabel()
-        label.text = "Email"
+        label.text = NSLocalizedString("email", comment: "")
+        label.textColor = .black
         return label
     }()
     
     let emailValueLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
+        label.textColor = .black
         return label
     }()
     
     let dateLabel: UILabel = {
         let label = UILabel()
-        label.text = "Fecha"
+        label.text = NSLocalizedString("date", comment: "")
+        label.textColor = .black
         return label
     }()
     
     let dateValueLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
+        label.textColor = .black
         return label
     }()
     
     let acceptButton: UIButton = {
         let button = UIButton()
-        button.setTitle("ACEPTAR", for: .normal)
+        button.setTitle(NSLocalizedString("accept", comment: ""), for: .normal)
         button.backgroundColor = AppColors.greenColor
         return button
     }()
     
     let ignoreButton: UIButton = {
         let button = UIButton()
-        button.setTitle("IGNORAR", for: .normal)
+        button.setTitle(NSLocalizedString("ignore", comment: ""), for: .normal)
         button.backgroundColor = AppColors.redColor
         return button
     }()
@@ -126,6 +129,8 @@ class RequestCell: UITableViewCell {
     }
     
     private func addViews() {
+        backgroundColor = .white
+        
         addSubview(userImage)
         
         [

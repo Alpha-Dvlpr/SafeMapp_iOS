@@ -80,7 +80,10 @@ class MapVC: UIViewController {
     }
 
     @objc private func logoutSuccessEvent() {
-        self.present(LoginVC(), animated: true, completion: nil)
+        let controller = LoginVC()
+        controller.modalPresentationStyle = .fullScreen
+        
+        self.present(controller, animated: true, completion: nil)
     }
     
     @objc private func sendAlertSignalEvent() {

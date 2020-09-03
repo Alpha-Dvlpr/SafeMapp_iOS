@@ -30,15 +30,23 @@ class LoginVC: UIViewController {
     
     let emailTextField: UITextField = {
         let view = UITextField()
-        view.placeholder = NSLocalizedString("email", comment: "")
         view.keyboardType = .emailAddress
+        view.textColor = .black
+        view.attributedPlaceholder = NSAttributedString(
+            string: NSLocalizedString("email", comment: ""),
+            attributes: [.foregroundColor: UIColor.lightGray]
+        )
         return view
     }()
     
     let passwordTextField: UITextField = {
         let view = UITextField()
-        view.placeholder = NSLocalizedString("password", comment: "")
         view.isSecureTextEntry = true
+        view.textColor = .black
+        view.attributedPlaceholder = NSAttributedString(
+            string: NSLocalizedString("password", comment: ""),
+            attributes: [.foregroundColor: UIColor.lightGray]
+        )
         return view
     }()
     
@@ -47,6 +55,7 @@ class LoginVC: UIViewController {
         view.text = NSLocalizedString("forgottenPassword", comment: "")
         view.font = .systemFont(ofSize: 12)
         view.textAlignment = .right
+        view.textColor = .black
         return view
     }()
     
@@ -74,6 +83,12 @@ class LoginVC: UIViewController {
         self.setupConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        self.showDisclaimer()
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -86,7 +101,11 @@ class LoginVC: UIViewController {
     
     @objc private func loginSuccessEvent() {
         ToastNotification.shared.long(view, txt_msg: NSLocalizedString("loginSuccess", comment: ""))
-        self.present(MainVC(), animated: true, completion: nil)
+
+        let controller = MainVC()
+        controller.modalPresentationStyle = .fullScreen
+
+        self.present(controller, animated: true, completion: nil)
     }
     
     @objc private func loginErrorEvent() {
@@ -139,9 +158,7 @@ class LoginVC: UIViewController {
     }
     
     @objc private func loginButtonPressed() {
-        guard let email = self.emailTextField.text, let password = self.passwordTextField.text else {
-            return
-        }
+        guard let email = self.emailTextField.text, let password = self.passwordTextField.text else { return }
         
         if (email == "" || password == "") {
             ToastNotification.shared.long(view, txt_msg: NSLocalizedString("emailAndPasswordRequired", comment: ""))
@@ -211,5 +228,32 @@ class LoginVC: UIViewController {
         registerButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24).isActive = true
         registerButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
         registerButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    }
+    
+    private func showDisclaimer() {
+        let preferences = UserDefaults.standard
+        let key: String = "disclaimershown"
+        
+        if preferences.object(forKey: key) == nil {
+            let alert = UIAlertController(
+                title: NSLocalizedString("info", comment: ""),
+                message: NSLocalizedString("disclaimerMessage", comment: ""),
+                preferredStyle: .alert
+            )
+            let acceptAction = UIAlertAction(
+                title: NSLocalizedString("accept", comment: ""),
+                style: .default,
+                handler: nil
+            )
+            let neverShowAgainAction = UIAlertAction(
+                title: NSLocalizedString("doNotShowAgain", comment: ""),
+                style: .cancel
+            ) { (action) in UserDefaults.standard.set(true, forKey: key) }
+
+            alert.addAction(acceptAction)
+            alert.addAction(neverShowAgainAction)
+
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }

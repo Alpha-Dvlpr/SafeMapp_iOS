@@ -30,22 +30,34 @@ class RegisterVC: UIViewController {
     
     let usernameTextField: UITextField = {
         let view = UITextField()
-        view.placeholder = NSLocalizedString("username", comment: "")
         view.keyboardType = .default
+        view.textColor = .black
+        view.attributedPlaceholder = NSAttributedString(
+            string: NSLocalizedString("username", comment: ""),
+            attributes: [.foregroundColor: UIColor.lightGray]
+        )
         return view
     }()
     
     let emailTextField: UITextField = {
         let view = UITextField()
-        view.placeholder = NSLocalizedString("email", comment: "")
         view.keyboardType = .emailAddress
+        view.textColor = .black
+        view.attributedPlaceholder = NSAttributedString(
+            string: NSLocalizedString("email", comment: ""),
+            attributes: [.foregroundColor: UIColor.lightGray]
+        )
         return view
     }()
     
     let passwordTextField: UITextField = {
         let view = UITextField()
-        view.placeholder = NSLocalizedString("password", comment: "")
         view.isSecureTextEntry = true
+        view.textColor = .black
+        view.attributedPlaceholder = NSAttributedString(
+            string: NSLocalizedString("password", comment: ""),
+            attributes: [.foregroundColor: UIColor.lightGray]
+        )
         return view
     }()
     
