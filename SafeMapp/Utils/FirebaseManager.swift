@@ -16,7 +16,6 @@ class FirebaseManager {
     private static let databaseReference = Database.database().reference(fromURL: "https://safemapp-8c432.firebaseio.com/")
     private static let storageReference = Storage.storage().reference()
     private static let usersReference = "Users"
-    private static let notificationsReference = "Notifications"
     private static let requestsReference = "Request"
     
     static func registerNewUser(email: String, password: String, nickname: String, onView: UIView) {
@@ -327,8 +326,8 @@ class FirebaseManager {
             let childRef = databaseReference.child(requestsReference).child(user.userId).childByAutoId().key
             let requestValue = [
                 "userName": myself.userName,
-                "latitude": myself.latitude,
-                "longitude": myself.longitude,
+                "latitude": String(myself.latitude),
+                "longitude": String(myself.longitude),
                 "email": myself.email,
                 "status": "pending",
                 "timestamp": ServerValue.timestamp(),
